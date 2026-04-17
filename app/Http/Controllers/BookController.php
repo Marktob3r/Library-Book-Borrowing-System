@@ -9,13 +9,22 @@ class BookController extends Controller
 {
     public function index()
     {
+        $search = request('search');
         $sort = request('sort', 'updated_at');
         $direction = request('direction', 'desc');
 
-        $books = Book::orderBy($sort, $direction)->get(); 
-        
-        return view('books.index', compact('books', 'sort', 'direction'));
-    }  
+        $books = Book::query()
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('author', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy($sort, $direction)
+            ->get();
+
+        return view('books.index', compact('books', 'search', 'sort', 'direction'));
+    }
 
     public function create()
     {

@@ -5,28 +5,42 @@
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Book Catalog') }}
                 </h2>
-                <a href="{{ route('books.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm transition shadow-sm hover:shadow-md">
-                    + Add New Book
-                </a>
             </div>
         </x-slot>
-
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                    <form action="{{ route('books.index') }}" method="GET" class="relative w-full md:w-1/3">
+                        <input type="hidden" name="sort" value="{{ $sort }}">
+                        <input type="hidden" name="direction" value="{{ $direction }}">
+                        <input 
+                            type="text" 
+                            name="search" 
+                            value="{{ $search }}"
+                            placeholder="Search by title or author..." 
+                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        >
+                        <div class="absolute left-3 top-2.5 text-gray-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                    </form>
+                    <a href="{{ route('books.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold shadow-md transition-all">
+                        + Add New Book
+                    </a>
+                </div>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-200">
                     <table class="w-full text-left border-collapse">
                         @if($books->isNotEmpty())
                         <thead>
                             <tr class="bg-gray-50 text-gray-600 uppercase text-xs font-bold border-b">
                                 <th class="py-4 px-6">
-                                    <a href="{{ route('books.index', ['sort' => 'title', 'direction' => $direction == 'asc' ? 'desc' : 'asc']) }}" class="hover:text-blue-600">
+                                    <a href="{{ route('books.index', ['sort' => 'title', 'direction' => $direction == 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="hover:text-blue-600">
                                         Title @if($sort == 'title') {{ $direction == 'asc' ? '↑' : '↓' }} @endif
                                     </a>
                                 </th>
                                 <th class="py-4 px-6">
-                                    <a href="{{ route('books.index', ['sort' => 'author', 'direction' => $direction == 'asc' ? 'desc' : 'asc']) }}" class="hover:text-blue-600">
-                                        Author @if($sort == 'author') {{ $direction == 'asc' ? '↑' : '↓' }} @endif
+                                    <a href="{{ route('books.index', ['sort' => 'title', 'direction' => $direction == 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="hover:text-blue-600">
+                                        Author @if($sort == 'title') {{ $direction == 'asc' ? '↑' : '↓' }} @endif
                                     </a>
                                 </th>
                                 <th class="py-4 px-6">Stock</th>
@@ -50,8 +64,8 @@
                                             {{ $book->status }}
                                         </span>
                                     </td>
-                                    <td class="py-4 px-6 text-gray-500 text-sm">
-                                        {{ $book->updated_at->diffForHumans() }}
+                                    <td class="py-4 px-6 text-gray-500 text-sm whitespace-nowrap">
+                                        {{ $book->updated_at->format('n/j/Y g:i A') }}
                                     </td>
                                     <td class="py-4 px-6 text-right space-x-3">
                                         <a href="{{ route('books.edit', $book->id) }}" class="text-indigo-600 hover:text-indigo-900 text-sm font-semibold">Edit</a>
@@ -64,21 +78,12 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="py-20">
-                                        <div class="flex flex-col items-center justify-center text-center">
-                                            <div class="bg-gray-100 p-6 rounded-full mb-4">
-                                                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                                                </svg>
-                                            </div>
-                                            <h3 class="text-lg font-bold text-gray-900">No books in the library</h3>
-                                            <p class="text-gray-500 max-w-xs mt-2">Your collection is currently empty. Start by adding your first book to the inventory.</p>
-                                            <div class="mt-6">
-                                                <a href="{{ route('books.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                                                    Get Started
-                                                </a>
-                                            </div>
-                                        </div>
+                                    <td colspan="4" class="py-10 text-center text-gray-500">
+                                        @if($search)
+                                            No books matching "<span class="font-bold">{{ $search }}</span>" were found.
+                                        @else
+                                            No books in the library yet.
+                                        @endif
                                     </td>
                                 </tr>
                             @endforelse

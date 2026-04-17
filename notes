@@ -1,0 +1,17 @@
+
+Run book seeder
+\\ php artisan db:seed --class=BookSeeder
+
+Wipe everything (Clean slate)
+\\ php artisan migrate:fresh
+
+Wipe everything + Re-seed
+\\ php artisan migrate:fresh --seed
+
+Wipe only Books
+\\ 1. php artisan tinker
+\\ 2. Book::truncate();
+\\ 3. exit
+
+Undo last migration
+\\ php artisan migrate:rollback
