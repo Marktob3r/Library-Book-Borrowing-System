@@ -1,22 +1,23 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Add New Book</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Edit Book: {{ $book->title }}</h2>
     </x-slot>
 
-    <div class="py-12" x-data="isbnHandler()">
+    <div class="py-12" x-data="isbnHandler()" x-init="init('{{ $book->isbn }}')">
         <div class="max-w-2xl mx-auto bg-white p-8 shadow-sm sm:rounded-lg border border-gray-200">
-            <form action="{{ route('books.store') }}" method="POST">
+            <form action="{{ route('books.update', $book->id) }}" method="POST">
                 @csrf
+                @method('PATCH')
+                
                 <div class="grid gap-6">
-                    
                     <div>
                         <x-input-label for="title" value="Book Title" />
-                        <x-text-input id="title" name="title" type="text" class="block mt-1 w-full" maxlength="80" required placeholder="Don Quixote"/>
+                        <x-text-input id="title" name="title" type="text" class="block mt-1 w-full" maxlength="80" value="{{ old('title', $book->title) }}" required />
                     </div>
 
                     <div>
                         <x-input-label for="author" value="Author Name" />
-                        <x-text-input id="author" name="author" type="text" class="block mt-1 w-full" maxlength="70" required placeholder="Miguel de Cervantes"/>
+                        <x-text-input id="author" name="author" type="text" class="block mt-1 w-full" maxlength="70" value="{{ old('author', $book->author) }}" required />
                     </div>
 
                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
@@ -29,25 +30,23 @@
                         </div>
                         
                         <x-text-input 
-                            id="isbn" 
-                            name="isbn" 
-                            type="text" 
+                            id="isbn" name="isbn" type="text" 
                             class="block mt-1 w-full font-mono" 
                             x-model="formattedIsbn"
                             @input="formatInput"
-                            required
+                            required 
                         />
                     </div>
 
                     <div>
                         <x-input-label for="total_quantity" value="Total Quantity (1-999)" />
-                        <x-text-input id="total_quantity" name="total_quantity" type="number" min="1" max="999" class="block mt-1 w-full" required placeholder="1"/>
+                        <x-text-input id="total_quantity" name="total_quantity" type="number" min="1" max="999" class="block mt-1 w-full" value="{{ old('total_quantity', $book->total_quantity) }}" required />
+                        <p class="text-xs text-gray-500 mt-1">Note: Available stock will be adjusted automatically.</p>
                     </div>
 
-                    <div class="flex items-center justify-end mt-4">
-                        <x-primary-button class="ml-4">
-                            Save Book to Inventory
-                        </x-primary-button>
+                    <div class="flex items-center justify-between mt-4">
+                        <a href="{{ route('books.index') }}" class="text-sm text-gray-600 hover:underline">Cancel and go back</a>
+                        <x-primary-button>Update Book Details</x-primary-button>
                     </div>
                 </div>
             </form>
@@ -60,33 +59,34 @@
                 type: '13',
                 formattedIsbn: '',
                 
+                init(rawIsbn) {
+                    this.type = rawIsbn.length <= 10 ? '10' : '13';
+                    this.applyFormatting(rawIsbn);
+                },
+
                 setType(newType) {
                     this.type = newType;
-                    this.formattedIsbn = ''; // Clear input when switching types
+                    this.applyFormatting(this.formattedIsbn.replace(/\D/g, ''));
                 },
 
                 formatInput(e) {
-                    // 1. Remove all non-numeric characters
-                    let val = e.target.value.replace(/\D/g, '');
-                    
-                    // 2. Limit length based on type
+                    this.applyFormatting(e.target.value.replace(/\D/g, ''));
+                },
+
+                applyFormatting(val) {
                     let limit = this.type === '10' ? 10 : 13;
                     val = val.substring(0, limit);
 
-                    // 3. Apply formatting (Dashes)
                     if (this.type === '10') {
-                        // Pattern: 0-306-40615-2 (1-3-5-1)
                         if (val.length > 1) val = val.slice(0, 1) + '-' + val.slice(1);
                         if (val.length > 5) val = val.slice(0, 5) + '-' + val.slice(5);
                         if (val.length > 11) val = val.slice(0, 11) + '-' + val.slice(11);
                     } else {
-                        // Pattern: 978-3-16-148410-0 (3-1-2-6-1)
                         if (val.length > 3) val = val.slice(0, 3) + '-' + val.slice(3);
                         if (val.length > 5) val = val.slice(0, 5) + '-' + val.slice(5);
                         if (val.length > 8) val = val.slice(0, 8) + '-' + val.slice(8);
                         if (val.length > 15) val = val.slice(0, 15) + '-' + val.slice(15);
                     }
-
                     this.formattedIsbn = val;
                 }
             }
