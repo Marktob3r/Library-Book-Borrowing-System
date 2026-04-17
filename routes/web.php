@@ -10,11 +10,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// KEEP THIS - It handles all 7 CRUD routes including the index with the data
 Route::resource('books', BookController::class)->middleware(['auth']);
 
-Route::get('/books', function () {
-    return view('books.index');
-})->middleware(['auth', 'verified'])->name('books.index');
+// DELETE OR COMMENT OUT THE CODE BELOW
+// Route::get('/books', function () {
+//    return view('books.index');
+// })->middleware(['auth', 'verified'])->name('books.index');
 
 Route::get('/dashboard', function () {
     return view('dashboard', [
