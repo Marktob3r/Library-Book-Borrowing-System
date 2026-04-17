@@ -32,7 +32,7 @@ The application implements the following core functionalities as specified in th
 ### Setup Steps
 1. **Clone the Repository:**
 ```bash
-git clone <your-repository-link>
+git clone https://github.com/Marktob3r/Library-Book-Borrowing-System.git
 cd library-book-borrowing-system
 ```
 
