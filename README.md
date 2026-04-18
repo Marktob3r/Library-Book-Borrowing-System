@@ -29,6 +29,19 @@ The application implements the following core functionalities as specified in th
 * Node.js & NPM
 * MySQL (XAMPP/Laragon)
 
+### XAMPP Setup
+**XAMPP Installation & PHP Configuration**
+- Before running the code, your environment needs to be configured to handle Laravel's requirements.
+1. Install XAMPP: Ensure everyone is running the same version (preferably PHP 8.1 or higher).
+2. Enable PHP Extensions
+   - Open the XAMPP Control Panel.
+   - Click Config next to the Apache module and select PHP (php.ini).
+   - Press Ctrl + F and search for the following extensions. Remove the semicolon (;) at the beginning of these lines to enable them:
+       - extension=fileinfo
+       - extension=intl
+       - extension=mbstring
+       - extension=gd
+
 ### Setup Steps
 1. **Clone the Repository:**
 ```bash
