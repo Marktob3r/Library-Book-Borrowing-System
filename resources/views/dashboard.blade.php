@@ -27,7 +27,7 @@
                     Recent Transactions
                 </div>
                 <div class="p-6 text-gray-500 text-center">
-                    No recent transactions found. (We will connect this to the database later!)
+                    No recent transactions found.
                 </div>
             </div>
 

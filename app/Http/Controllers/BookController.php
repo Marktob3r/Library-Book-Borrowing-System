@@ -9,21 +9,21 @@ class BookController extends Controller
 {
     public function index()
     {
+        $perPage = request('per_page', 15);
         $search = request('search');
         $sort = request('sort', 'updated_at');
         $direction = request('direction', 'desc');
 
         $books = Book::query()
             ->when($search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('title', 'like', "%{$search}%")
+                $query->where('title', 'like', "%{$search}%")
                     ->orWhere('author', 'like', "%{$search}%");
-                });
             })
             ->orderBy($sort, $direction)
-            ->get();
+            ->paginate($perPage)
+            ->withQueryString();
 
-        return view('books.index', compact('books', 'search', 'sort', 'direction'));
+        return view('books.index', compact('books', 'search', 'sort', 'direction', 'perPage'));
     }
 
     public function create()

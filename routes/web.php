@@ -7,7 +7,7 @@ use App\Models\BorrowTransaction;
 use App\Http\Controllers\BookController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 // KEEP THIS - It handles all 7 CRUD routes including the index with the data

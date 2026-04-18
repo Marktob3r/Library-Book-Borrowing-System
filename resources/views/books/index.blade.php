@@ -7,88 +7,109 @@
                 </h2>
             </div>
         </x-slot>
-        <div class="py-12">
+        <div class="py-7">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                    <form action="{{ route('books.index') }}" method="GET" class="relative w-full md:w-1/3">
-                        <input type="hidden" name="sort" value="{{ $sort }}">
-                        <input type="hidden" name="direction" value="{{ $direction }}">
-                        <input 
-                            type="text" 
-                            name="search" 
-                            value="{{ $search }}"
-                            placeholder="Search by title or author..." 
-                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                        >
-                        <div class="absolute left-3 top-2.5 text-gray-400">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        </div>
-                    </form>
-                    <a href="{{ route('books.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold shadow-md transition-all">
+                    <div class="flex flex-1 items-center gap-3 w-full md:w-auto">
+                        <form action="{{ route('books.index') }}" method="GET" class="relative w-full md:w-80">
+                            <input type="hidden" name="sort" value="{{ $sort }}">
+                            <input type="hidden" name="direction" value="{{ $direction }}">
+                            <input type="hidden" name="per_page" value="{{ $perPage }}">
+                            <input 
+                                type="text" 
+                                name="search" 
+                                value="{{ $search }}"
+                                placeholder="Search by title or author..." 
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all shadow-sm text-sm"
+                            >
+                            <div class="absolute left-3 top-2.5 text-gray-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+                        </form>
+
+                        <form action="{{ route('books.index') }}" method="GET" class="flex items-center gap-2">
+                            <input type="hidden" name="search" value="{{ $search }}">
+                            <input type="hidden" name="sort" value="{{ $sort }}">
+                            <input type="hidden" name="direction" value="{{ $direction }}">
+                            
+                            <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Show</label>
+                            <select name="per_page" onchange="this.form.submit()" class="text-sm border-gray-300 rounded-lg focus:ring-blue-500 py-1.5 pl-3 pr-8 shadow-sm">
+                                @foreach([15, 25, 50, 100] as $val)
+                                    <option value="{{ $val }}" {{ $perPage == $val ? 'selected' : '' }}>{{ $val }}</option>
+                                @endforeach
+                            </select>
+                        </form>
+                    </div>
+
+                    <a href="{{ route('books.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold shadow-md transition-all text-sm">
                         + Add New Book
                     </a>
                 </div>
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-200">
-                    <table class="w-full text-left border-collapse">
-                        @if($books->isNotEmpty())
-                        <thead>
-                            <tr class="bg-gray-50 text-gray-600 uppercase text-xs font-bold border-b">
-                                <th class="py-4 px-6">
-                                    <a href="{{ route('books.index', ['sort' => 'title', 'direction' => $direction == 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="hover:text-blue-600">
-                                        Title @if($sort == 'title') {{ $direction == 'asc' ? '↑' : '↓' }} @endif
-                                    </a>
-                                </th>
-                                <th class="py-4 px-6">
-                                    <a href="{{ route('books.index', ['sort' => 'title', 'direction' => $direction == 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="hover:text-blue-600">
-                                        Author @if($sort == 'title') {{ $direction == 'asc' ? '↑' : '↓' }} @endif
-                                    </a>
-                                </th>
-                                <th class="py-4 px-6">Stock</th>
-                                <th class="py-4 px-6">Status</th>
-                                <th class="py-4 px-6">Modified</th>
-                                <th class="py-4 px-6 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        @endif
-                        <tbody>
-                            @forelse($books as $book)
-                                <tr class="border-b hover:bg-gray-50 transition">
-                                    <td class="py-4 px-6 font-medium text-gray-900">{{ $book->title }}</td>
-                                    <td class="py-4 px-6 text-gray-600">{{ $book->author }}</td>
-                                    <td class="py-4 px-6 text-gray-600">
-                                        <span class="font-bold">{{ $book->available_quantity }}</span> / {{ $book->total_quantity }}
-                                    </td>
-                                    <td class="py-4 px-6">
-                                        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold 
-                                            {{ $book->status == 'Available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                            {{ $book->status }}
-                                        </span>
-                                    </td>
-                                    <td class="py-4 px-6 text-gray-500 text-sm whitespace-nowrap">
-                                        {{ $book->updated_at->format('n/j/Y g:i A') }}
-                                    </td>
-                                    <td class="py-4 px-6 text-right space-x-3">
-                                        <a href="{{ route('books.edit', $book->id) }}" class="text-indigo-600 hover:text-indigo-900 text-sm font-semibold">Edit</a>
-                                        <button 
-                                            @click="showDeleteModal = true; deleteUrl = '/books/{{ $book->id }}'"
-                                            class="text-red-600 hover:text-red-900 text-sm font-semibold">
-                                            Delete
-                                        </button>
-                                    </td>
+
+                <div class="bg-white shadow-sm sm:rounded-lg border border-gray-200 overflow-hidden">
+                    <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="sticky top-0 z-20">
+                                <tr class="bg-gray-50 text-gray-600 uppercase text-[11px] font-bold border-b border-gray-200">
+                                    <th class="py-3 px-6 bg-gray-50">
+                                        <a href="{{ route('books.index', ['sort' => 'title', 'direction' => $direction == 'asc' ? 'desc' : 'asc', 'search' => $search, 'per_page' => $perPage]) }}" class="flex items-center gap-1 hover:text-blue-600 transition-colors {{ $sort == 'title' ? 'text-blue-600' : '' }}">
+                                            Title @if($sort == 'title') {{ $direction == 'asc' ? '↑' : '↓' }} @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 bg-gray-50">
+                                        <a href="{{ route('books.index', ['sort' => 'author', 'direction' => $direction == 'asc' ? 'desc' : 'asc', 'search' => $search, 'per_page' => $perPage]) }}" class="flex items-center gap-1 hover:text-blue-600 transition-colors {{ $sort == 'author' ? 'text-blue-600' : '' }}">
+                                            Author @if($sort == 'author') {{ $direction == 'asc' ? '↑' : '↓' }} @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 bg-gray-50">Stock</th>
+                                    <th class="py-3 px-6 bg-gray-50 text-center">Status</th>
+                                    <th class="py-3 px-6 bg-gray-50">Modified</th>
+                                    <th class="py-3 px-6 bg-gray-50 text-right">Actions</th>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="py-10 text-center text-gray-500">
-                                        @if($search)
-                                            No books matching "<span class="font-bold">{{ $search }}</span>" were found.
-                                        @else
-                                            No books in the library yet.
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                @forelse($books as $book)
+                                    <tr class="hover:bg-blue-50/40 transition-colors group">
+                                        <td class="py-3 px-6 text-sm font-medium text-gray-900">{{ $book->title }}</td>
+                                        <td class="py-3 px-6 text-sm text-gray-600">{{ $book->author }}</td>
+                                        <td class="py-3 px-6 text-sm text-gray-600">
+                                            <span class="font-bold text-gray-800">{{ $book->available_quantity }}</span> / <span class="text-gray-400">{{ $book->total_quantity }}</span>
+                                        </td>
+                                        <td class="py-3 px-6 text-center">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
+                                                {{ $book->status == 'Available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                                                {{ $book->status }}
+                                            </span>
+                                        </td>
+                                        <td class="py-3 px-6 text-gray-400 text-[12px] whitespace-nowrap">
+                                            {{ $book->updated_at->format('M d, Y') }}<br>
+                                            <span class="text-[10px]">{{ $book->updated_at->format('h:i A') }}</span>
+                                        </td>
+                                        <td class="py-3 px-6 text-right space-x-2">
+                                            <a href="{{ route('books.edit', $book->id) }}" class="text-blue-600 hover:text-blue-800 text-xs font-bold uppercase tracking-tighter">Edit</a>
+                                            <button 
+                                                @click="showDeleteModal = true; deleteUrl = '/books/{{ $book->id }}'"
+                                                class="text-red-400 hover:text-red-600 text-xs font-bold uppercase tracking-tighter">
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="py-12 text-center text-gray-400 italic">
+                                            No books found matching your criteria.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @if($books->hasPages())
+                        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                            {{ $books->links() }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
