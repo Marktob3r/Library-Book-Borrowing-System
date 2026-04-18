@@ -41,6 +41,7 @@ The application implements the following core functionalities as specified in th
        - extension=intl
        - extension=mbstring
        - extension=gd
+    - Save the file and Restart Apache in the XAMPP panel.
 
 ### Setup Steps
 1. **Clone the Repository:**
