@@ -81,6 +81,7 @@ The database is designed using proper normalization (1NF to 3NF) and utilizes El
 - **John Rayniel Bonifacio**
 - **Mark Christian Gabriel**
 - **Justin Monsalud**
+- **Ian Denver Orquiza**
 
 ## License
 This project was developed for academic purposes at Gordon College, College of Computer Studies.
