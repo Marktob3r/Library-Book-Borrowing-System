@@ -60,11 +60,13 @@ php artisan migrate --seed
 ```
 
 6. **Compile Assets:**
+- Open terminal and enter
 ```bash
 npm run dev
 ```
 
 7. **Start the Server:**
+- Open another terminal and enter
 ```bash
 php artisan serve
 ```
