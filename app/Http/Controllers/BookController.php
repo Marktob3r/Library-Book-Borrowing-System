@@ -96,6 +96,41 @@ class BookController extends Controller
 
         $book->delete();
 
-        return redirect()->route('books.index')->with('success', 'Book removed from inventory successfully.');
+        return redirect()->route('books.index')->with('success', 'Book archived successfully. It will be permanently deleted after 30 days.');
+    }
+
+    public function archive()
+    {
+        $perPage = request('per_page', 15);
+        $search = request('search');
+        $sort = request('sort', 'deleted_at');
+        $direction = request('direction', 'desc');
+
+        $books = Book::onlyTrashed()
+            ->when($search, function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('author', 'like', "%{$search}%");
+            })
+            ->orderBy($sort, $direction)
+            ->paginate($perPage)
+            ->withQueryString();
+
+        return view('books.archive', compact('books', 'search', 'sort', 'direction', 'perPage'));
+    }
+
+    public function restore(string $id)
+    {
+        $book = Book::onlyTrashed()->findOrFail($id);
+        $book->restore();
+
+        return redirect()->route('books.archive')->with('success', 'Book restored successfully.');
+    }
+
+    public function forceDelete(string $id)
+    {
+        $book = Book::onlyTrashed()->findOrFail($id);
+        $book->forceDelete();
+
+        return redirect()->route('books.archive')->with('success', 'Book permanently deleted.');
     }
 }

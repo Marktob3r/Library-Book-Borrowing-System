@@ -11,7 +11,13 @@ Route::get('/', function () {
 });
 
 // KEEP THIS - It handles all 7 CRUD routes including the index with the data
-Route::resource('books', BookController::class)->middleware(['auth']);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/books/archive', [BookController::class, 'archive'])->name('books.archive');
+    Route::post('/books/{id}/restore', [BookController::class, 'restore'])->name('books.restore');
+    Route::delete('/books/{id}/force-delete', [BookController::class, 'forceDelete'])->name('books.forceDelete');
+    
+    Route::resource('books', BookController::class);
+});
 
 // DELETE OR COMMENT OUT THE CODE BELOW
 // Route::get('/books', function () {

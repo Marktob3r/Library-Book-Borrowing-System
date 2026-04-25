@@ -4,36 +4,35 @@
         <div class="flex justify-between h-16">
             <div class="flex items-center">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                        <x-application-logo class="block h-9 w-auto fill-current text-blue-600" />
-                        <span class="hidden sm:inline text-lg font-bold text-gray-900">Library</span>
-                    </a>
-                </div>
+                <a class="flex items-center gap-3">
+                    <div class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 shadow-md [&_svg]:stroke-white">
+                        <x-application-logo class="block h-6 w-6"/>
+                    </div>
+                    <span class="hidden md:inline text-xl font-bold text-gray-900">Library</span>
+                </a>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-1 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="px-4 py-2 rounded-lg transition duration-200">
-                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                            <path d="M528-624v-192h288v192H528ZM144-432v-384h288v384H144Zm384 288v-384h288v384H528Zm-384 0v-192h288v192H144Z"/>
                         </svg>
-                        {{ __('Dashboard') }}
+                        {{ __('Dashboard') }} 
                     </x-nav-link>
 
                     <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')" class="px-4 py-2 rounded-lg transition duration-200">
-                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4z"></path>
-                            <path fill-rule="evenodd" d="M3 7a1 1 0 011-1h12a1 1 0 011 1v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7zm12-1a1 1 0 00-1 1v10H4V7a1 1 0 00-1-1h12z" clip-rule="evenodd"></path>
+                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                            <path d="M384-408h192v-72H384v72Zm0-120h336v-72H384v72Zm0-120h336v-72H384v72Zm-72 408q-29.7 0-50.85-21.15Q240-282.3 240-312v-480q0-29.7 21.15-50.85Q282.3-864 312-864h480q29.7 0 50.85 21.15Q864-821.7 864-792v480q0 29.7-21.15 50.85Q821.7-240 792-240H312ZM168-96q-29.7 0-50.85-21.15Q96-138.3 96-168v-552h72v552h552v72H168Z"/>
                         </svg>
                         {{ __('Book Catalog') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('books.create')" :active="request()->routeIs('books.create')" class="px-4 py-2 rounded-lg transition duration-200">
-                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd"></path>
+                    <x-nav-link :href="route('books.archive')" :active="request()->routeIs('books.archive')" class="px-4 py-2 rounded-lg transition duration-200">
+                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                            <path d="m480-240 160-160-56-56-64 64v-168h-80v168l-64-64-56 56 160 160ZM200-640v440h560v-440H200Zm0 520q-33 0-56.5-23.5T120-200v-499q0-14 4.5-27t13.5-24l50-61q11-14 27.5-21.5T250-840h460q18 0 34.5 7.5T772-811l50 61q9 11 13.5 24t4.5 27v499q0 33-23.5 56.5T760-120H200Zm16-600h528l-34-40H250l-34 40Zm264 300Z"/>
                         </svg>
-                        {{ __('Add Book') }}
-                    </x-nav-link>
+                        {{ __('Archive') }}
+                    </x-nav-link>                    
                 </div>
             </div>
 
@@ -72,8 +71,8 @@
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();"
                                     class="flex items-center gap-2 text-red-600">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V4a1 1 0 00-1-1H3zm11 4.414l-4.293 4.293a1 1 0 001.414 1.414L15.414 9l-4.293-4.293a1 1 0 00-1.414 1.414L13.586 9l-4.293 4.293a1 1 0 001.414 1.414L15.414 10.414V15a1 1 0 11-2 0v-4.586z" clip-rule="evenodd"></path>
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 -960 960 960">
+                                    <path d="M216-144q-29.7 0-50.85-21.15Q144-186.3 144-216v-528q0-29.7 21.15-50.85Q186.3-816 216-816h264v72H216v528h264v72H216Zm432-168-51-51 81-81H384v-72h294l-81-81 51-51 168 168-168 168Z"/>
                                 </svg>
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -98,26 +97,25 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-gray-50 border-t border-blue-100">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="flex items-center gap-2">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
-                </svg>
+                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                            <path d="M528-624v-192h288v192H528ZM144-432v-384h288v384H144Zm384 288v-384h288v384H528Zm-384 0v-192h288v192H144Z"/>
+                        </svg>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')" class="flex items-center gap-2">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4z"></path>
-                    <path fill-rule="evenodd" d="M3 7a1 1 0 011-1h12a1 1 0 011 1v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7zm12-1a1 1 0 00-1 1v10H4V7a1 1 0 00-1-1h12z" clip-rule="evenodd"></path>
-                </svg>
+                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                            <path d="M384-408h192v-72H384v72Zm0-120h336v-72H384v72Zm0-120h336v-72H384v72Zm-72 408q-29.7 0-50.85-21.15Q240-282.3 240-312v-480q0-29.7 21.15-50.85Q282.3-864 312-864h480q29.7 0 50.85 21.15Q864-821.7 864-792v480q0 29.7-21.15 50.85Q821.7-240 792-240H312ZM168-96q-29.7 0-50.85-21.15Q96-138.3 96-168v-552h72v552h552v72H168Z"/>
+                        </svg>
                 {{ __('Book Catalog') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('books.create')" :active="request()->routeIs('books.create')" class="flex items-center gap-2">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd"></path>
-                </svg>
-                {{ __('Add New Book') }}
-            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('books.archive')" :active="request()->routeIs('books.archive')" class="flex items-center gap-2">
+                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                            <path d="m480-240 160-160-56-56-64 64v-168h-80v168l-64-64-56 56 160 160ZM200-640v440h560v-440H200Zm0 520q-33 0-56.5-23.5T120-200v-499q0-14 4.5-27t13.5-24l50-61q11-14 27.5-21.5T250-840h460q18 0 34.5 7.5T772-811l50 61q9 11 13.5 24t4.5 27v499q0 33-23.5 56.5T760-120H200Zm16-600h528l-34-40H250l-34 40Zm264 300Z"/>
+                        </svg>
+                {{ __('Archive') }}
+            </x-responsive-nav-link>            
         </div>
 
         <!-- Responsive Settings Options -->
@@ -148,8 +146,8 @@
                             onclick="event.preventDefault();
                                         this.closest('form').submit();"
                             class="flex items-center gap-2 text-red-600">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V4a1 1 0 00-1-1H3zm11 4.414l-4.293 4.293a1 1 0 001.414 1.414L15.414 9l-4.293-4.293a1 1 0 00-1.414 1.414L13.586 9l-4.293 4.293a1 1 0 001.414 1.414L15.414 10.414V15a1 1 0 11-2 0v-4.586z" clip-rule="evenodd"></path>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 -960 960 960">
+                            <path d="M216-144q-29.7 0-50.85-21.15Q144-186.3 144-216v-528q0-29.7 21.15-50.85Q186.3-816 216-816h264v72H216v528h264v72H216Zm432-168-51-51 81-81H384v-72h294l-81-81 51-51 168 168-168 168Z"/>
                         </svg>
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>

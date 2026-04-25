@@ -23,10 +23,7 @@
                                     <p class="text-blue-100 text-sm font-semibold mb-2">Total Books</p>
                                     <p class="text-white text-4xl font-bold">{{ $totalBooks }}</p>
                                 </div>
-                                <svg class="w-12 h-12 text-blue-300 opacity-50" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4z"></path>
-                                    <path fill-rule="evenodd" d="M3 7a1 1 0 011-1h12a1 1 0 011 1v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7zm12-1a1 1 0 00-1 1v10H4V7a1 1 0 00-1-1h12z" clip-rule="evenodd"></path>
-                                </svg>
+                                <svg class="w-12 h-12 text-blue-300 opacity-50" fill="currentColor" viewBox="0 -960 960 960"><path d="M96-192v-72h768v72H96Zm120-144v-288h72v288h-72Zm144 0v-432h72v432h-72Zm144 0v-432h72v432h-72Zm224 0L624-597l67-27 104 261-67 27Z"/></svg>
                             </div>
                             <p class="text-blue-100 text-xs mt-4">In the library inventory</p>
                         </div>
