@@ -148,8 +148,8 @@
                                     <tr>
                                         <td colspan="6" class="py-16 text-center">
                                             <div class="flex flex-col items-center justify-center">
-                                                <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17.25c0 5.079 3.855 9.426 8.756 9.426m0-13c5.5 0 10 4.745 10 10.997 0 5.079-3.855 9.426-8.756 9.426m0 0A8.456 8.456 0 0019.756 27.25c5.079 0 8.755-4.347 8.755-9.426"></path>
+                                                <svg class="w-16 h-16 text-gray-300 mb-4" fill="currentColor" stroke="currentColor" viewBox="0 -960 960 960">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M480-160q-48-38-104-59t-116-21q-42 0-82.5 11T100-198q-21 11-40.5-1T40-234v-482q0-11 5.5-21T62-752q6-3 11.5-6t11.5-5l-59-59 56-56L878-82l-56 56-204-204q-38 10-72.5 27.5T480-160Zm-80-135v-153L146-702q-7 2-13 4.5t-13 5.5v397q35-13 69.5-19t70.5-6q36 0 70.5 6t69.5 19Zm80-299L274-800q54 2 106 16.5T480-740v146Zm0 338q18-11 36.5-20t38.5-17l-75-75v112Zm161-177-81-81v-226l200-200v400L641-433Zm240 240L758-316q21 3 41.5 8t40.5 12v-480q15 5 29.5 11t28.5 13q11 5 16.5 15t5.5 21v482q0 17-11.5 28.5T881-193ZM400-295v-153 153Z"></path>
                                                 </svg>
                                                 <p class="text-gray-500 font-semibold">No archived books found</p>
                                             </div>

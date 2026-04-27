@@ -60,21 +60,21 @@
                     <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
                         <table class="w-full text-left border-collapse">
                             <thead class="sticky top-0 z-20">
-                                <tr class= text-gray-700 uppercase text-[11px] font-bold border-b border-blue-200">
+                                <tr class="bg-blue-50 text-gray-700 uppercase text-[11px] font-bold border-b border-blue-200">
                                     <th class="py-3 px-6">
                                         <a href="{{ route('books.index', ['sort' => 'title', 'direction' => $direction == 'asc' ? 'desc' : 'asc', 'search' => $search, 'per_page' => $perPage]) }}" class="flex items-center gap-1 hover:text-blue-600 transition-colors {{ $sort == 'title' ? 'text-blue-600 font-bold' : '' }}">
                                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 -960 960 960"><path d="M144-288v-72h528v72H144Zm0-156v-72h528v72H144Zm0-156v-72h528v72H144Zm635.5 312q-14.5 0-25-10.35T744-324q0-14 10.35-25T780-360q14 0 25 11t11 25.5q0 14.5-11 25T779.5-288Zm0-156q-14.5 0-25-10.35T744-480q0-14 10.35-25T780-516q14 0 25 11t11 25.5q0 14.5-11 25T779.5-444Zm0-156q-14.5 0-25-10.35T744-636q0-14 10.35-25T780-672q14 0 25 11t11 25.5q0 14.5-11 25T779.5-600Z"/></svg>
                                             Title @if($sort == 'title') {{ $direction == 'asc' ? '↑' : '↓' }} @endif
                                         </a>
                                     </th>
-                                    <th class="py-3 px-6">
+                                    <th class="py-3 px-6 flex justify-center">
                                         <a href="{{ route('books.index', ['sort' => 'author', 'direction' => $direction == 'asc' ? 'desc' : 'asc', 'search' => $search, 'per_page' => $perPage]) }}" class="flex items-center gap-1 hover:text-blue-600 transition-colors {{ $sort == 'author' ? 'text-blue-600 font-bold' : '' }}">
                                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 -960 960 960"><path d="M576-144v-113l210-209q7-7 16-10.5t18-3.5q9 0 18 3.5t16 10.5l44 45q7 7 10.5 16t3.5 18q0 9-3.5 18T898-353L689-144H576Zm-384-48v-96q0-23 12.5-43.5T239-366q55-32 116.5-49T480-432q38 0 74.5 6t71.5 17L504-287v95H192Zm627-149 45-46-45-45-45 46 45 45ZM378-522q-42-42-42-102t42-102q42-42 102-42t102 42q42 42 42 102t-42 102q-42 42-102 42t-102-42Z"/></svg></svg>
                                             Author @if($sort == 'author') {{ $direction == 'asc' ? '↑' : '↓' }} @endif
                                         </a>
                                     </th>
                                     <th class="py-3 px-6 text-center">
-                                        <div class="flex items-center gap-1">
+                                        <div class="flex ite ms-center gap-1">
                                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 -960 960 960"><path d="M96-192v-72h768v72H96Zm120-144v-288h72v288h-72Zm144 0v-432h72v432h-72Zm144 0v-432h72v432h-72Zm224 0L624-597l67-27 104 261-67 27Z"/></svg>
                                             Stock
                                         </div>
@@ -85,7 +85,7 @@
                                             Status
                                         </div>
                                     </th>
-                                    <th class="py-3 px-6 text-center">
+                                    <th class="py-3 px-6 flex justify-center">
                                         <div class="flex items-center gap-1">
                                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 -960 960 960"><path d="m96-192 384-576 384 576H96Z"/></svg>
                                             Modified
@@ -103,7 +103,7 @@
                                 @forelse($books as $book)
                                     <tr class="hover:bg-blue-50/80 transition-colors duration-150 group">
                                         <td class="py-4 px-6 text-sm font-semibold text-gray-900">{{ $book->title }}</td>
-                                        <td class="py-4 px-6 text-sm text-gray-600">{{ $book->author }}</td>
+                                        <td class="py-4 px-6 text-sm text-gray-600 text-center">{{ $book->author }}</td>
                                         <td class="py-4 px-6 text-sm">
                                             <div class="flex items-center gap-2">
                                                 <span class="text-gray-500">{{ $book->available_quantity }}</span>
@@ -123,20 +123,20 @@
                                             </span>
                                         </td>
                                         <td class="py-4 px-6 text-gray-600 text-[12px] whitespace-nowrap">
-                                            <div class="font-medium text-gray-800">{{ $book->updated_at->format('M d, Y') }}</div>
-                                            <div class="text-[11px] text-gray-500">{{ $book->updated_at->format('h:i A') }}</div>
+                                            <div class="font-medium text-gray-800 text-center">{{ $book->updated_at->format('M d, Y') }}</div>
+                                            <div class="text-[11px] text-gray-500 text-center">{{ $book->updated_at->format('h:i A') }}</div>
                                         </td>
-                                        <td class="py-4 px-6 text-right">
-                                            <div class="flex justify-end gap-3">
-                                                <a href="{{ route('books.edit', $book->id) }}" class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tighter transition-colors duration-200">
+                                        <td class="py-4 px-6 text-right ">
+                                            <div class="flex justify-end">
+                                                <a href="{{ route('books.edit', $book->id) }}" class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tighter transition-colors duration-200" title="Edit book">
                                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg>
-                                                    Edit
+                                                    
                                                 </a>
                                                 <button 
                                                     @click="showDeleteModal = true; deleteUrl = '/books/{{ $book->id }}'"
-                                                    class="inline-flex items-center gap-1 text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tighter transition-colors duration-200">
+                                                    class="inline-flex items-center gap-1 text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tighter transition-colors duration-200" title="Archive book">
                                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 -960 960 960"><path d="m480-240 160-160-56-56-64 64v-168h-80v168l-64-64-56 56 160 160ZM200-640v440h560v-440H200Zm0 520q-33 0-56.5-23.5T120-200v-499q0-14 4.5-27t13.5-24l50-61q11-14 27.5-21.5T250-840h460q18 0 34.5 7.5T772-811l50 61q9 11 13.5 24t4.5 27v499q0 33-23.5 56.5T760-120H200Zm16-600h528l-34-40H250l-34 40Zm264 300Z"/></svg>
-                                                    Archive
+                                                    
                                                 </button>
                                             </div>
                                         </td>
@@ -145,8 +145,8 @@
                                     <tr>
                                         <td colspan="6" class="py-16 text-center">
                                             <div class="flex flex-col items-center justify-center">
-                                                <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17.25c0 5.079 3.855 9.426 8.756 9.426m0-13c5.5 0 10 4.745 10 10.997 0 5.079-3.855 9.426-8.756 9.426m0 0A8.456 8.456 0 0019.756 27.25c5.079 0 8.755-4.347 8.755-9.426"></path>
+                                                <svg class="w-16 h-16 text-gray-300 mb-4" fill="currentColor" stroke="currentColor" viewBox="0 -960 960 960">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M480-160q-48-38-104-59t-116-21q-42 0-82.5 11T100-198q-21 11-40.5-1T40-234v-482q0-11 5.5-21T62-752q6-3 11.5-6t11.5-5l-59-59 56-56L878-82l-56 56-204-204q-38 10-72.5 27.5T480-160Zm-80-135v-153L146-702q-7 2-13 4.5t-13 5.5v397q35-13 69.5-19t70.5-6q36 0 70.5 6t69.5 19Zm80-299L274-800q54 2 106 16.5T480-740v146Zm0 338q18-11 36.5-20t38.5-17l-75-75v112Zm161-177-81-81v-226l200-200v400L641-433Zm240 240L758-316q21 3 41.5 8t40.5 12v-480q15 5 29.5 11t28.5 13q11 5 16.5 15t5.5 21v482q0 17-11.5 28.5T881-193ZM400-295v-153 153Z"></path>
                                                 </svg>
                                                 <p class="text-gray-500 font-semibold">No books found</p>
                                             </div>
