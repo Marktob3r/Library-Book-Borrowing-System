@@ -24,6 +24,12 @@ class Book extends Model
     {
         return static::onlyTrashed()->where('deleted_at', '<=', now()->subDays(30));
     }
-}
 
-?>
+    /**
+     * Get all borrow transactions for this book.
+     */
+    public function borrowTransactions()
+    {
+        return $this->hasMany(BorrowTransaction::class);
+    }
+}

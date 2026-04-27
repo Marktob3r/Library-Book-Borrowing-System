@@ -13,26 +13,51 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-1 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="px-4 py-2 rounded-lg transition duration-200">
-                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
-                            <path d="M528-624v-192h288v192H528ZM144-432v-384h288v384H144Zm384 288v-384h288v384H528Zm-384 0v-192h288v192H144Z"/>
-                        </svg>
-                        {{ __('Dashboard') }} 
-                    </x-nav-link>
+                    @if(Auth::user()->is_admin)
+                        <!-- Admin Navigation -->
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="px-4 py-2 rounded-lg transition duration-200">
+                            <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                                <path d="M528-624v-192h288v192H528ZM144-432v-384h288v384H144Zm384 288v-384h288v384H528Zm-384 0v-192h288v192H144Z"/>
+                            </svg>
+                            {{ __('Dashboard') }} 
+                        </x-nav-link>
 
-                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')" class="px-4 py-2 rounded-lg transition duration-200">
-                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
-                            <path d="M384-408h192v-72H384v72Zm0-120h336v-72H384v72Zm0-120h336v-72H384v72Zm-72 408q-29.7 0-50.85-21.15Q240-282.3 240-312v-480q0-29.7 21.15-50.85Q282.3-864 312-864h480q29.7 0 50.85 21.15Q864-821.7 864-792v480q0 29.7-21.15 50.85Q821.7-240 792-240H312ZM168-96q-29.7 0-50.85-21.15Q96-138.3 96-168v-552h72v552h552v72H168Z"/>
-                        </svg>
-                        {{ __('Book Catalog') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')" class="px-4 py-2 rounded-lg transition duration-200">
+                            <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                                <path d="M384-408h192v-72H384v72Zm0-120h336v-72H384v72Zm0-120h336v-72H384v72Zm-72 408q-29.7 0-50.85-21.15Q240-282.3 240-312v-480q0-29.7 21.15-50.85Q282.3-864 312-864h480q29.7 0 50.85 21.15Q864-821.7 864-792v480q0 29.7-21.15 50.85Q821.7-240 792-240H312ZM168-96q-29.7 0-50.85-21.15Q96-138.3 96-168v-552h72v552h552v72H168Z"/>
+                            </svg>
+                            {{ __('Book Catalog') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="route('books.archive')" :active="request()->routeIs('books.archive')" class="px-4 py-2 rounded-lg transition duration-200">
-                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
-                            <path d="m480-240 160-160-56-56-64 64v-168h-80v168l-64-64-56 56 160 160ZM200-640v440h560v-440H200Zm0 520q-33 0-56.5-23.5T120-200v-499q0-14 4.5-27t13.5-24l50-61q11-14 27.5-21.5T250-840h460q18 0 34.5 7.5T772-811l50 61q9 11 13.5 24t4.5 27v499q0 33-23.5 56.5T760-120H200Zm16-600h528l-34-40H250l-34 40Zm264 300Z"/>
-                        </svg>
-                        {{ __('Archive') }}
-                    </x-nav-link>                    
+                        <x-nav-link :href="route('books.archive')" :active="request()->routeIs('books.archive')" class="px-4 py-2 rounded-lg transition duration-200">
+                            <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                                <path d="m480-240 160-160-56-56-64 64v-168h-80v168l-64-64-56 56 160 160ZM200-640v440h560v-440H200Zm0 520q-33 0-56.5-23.5T120-200v-499q0-14 4.5-27t13.5-24l50-61q11-14 27.5-21.5T250-840h460q18 0 34.5 7.5T772-811l50 61q9 11 13.5 24t4.5 27v499q0 33-23.5 56.5T760-120H200Zm16-600h528l-34-40H250l-34 40Zm264 300Z"/>
+                            </svg>
+                            {{ __('Archive') }}
+                        </x-nav-link>
+                    @else
+                        <!-- Student Navigation -->
+                        <x-nav-link :href="route('student.dashboard')" :active="request()->routeIs('student.dashboard')" class="px-4 py-2 rounded-lg transition duration-200">
+                            <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                                <path d="M528-624v-192h288v192H528ZM144-432v-384h288v384H144Zm384 288v-384h288v384H528Zm-384 0v-192h288v192H144Z"/>
+                            </svg>
+                            {{ __('Dashboard') }} 
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('student.browse-books')" :active="request()->routeIs('student.browse-books')" class="px-4 py-2 rounded-lg transition duration-200">
+                            <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                                <path d="M384-408h192v-72H384v72Zm0-120h336v-72H384v72Zm0-120h336v-72H384v72Zm-72 408q-29.7 0-50.85-21.15Q240-282.3 240-312v-480q0-29.7 21.15-50.85Q282.3-864 312-864h480q29.7 0 50.85 21.15Q864-821.7 864-792v480q0 29.7-21.15 50.85Q821.7-240 792-240H312ZM168-96q-29.7 0-50.85-21.15Q96-138.3 96-168v-552h72v552h552v72H168Z"/>
+                            </svg>
+                            {{ __('Browse Books') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('student.history')" :active="request()->routeIs('student.history')" class="px-4 py-2 rounded-lg transition duration-200">
+                            <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                                <path d="m480-240 160-160-56-56-64 64v-168h-80v168l-64-64-56 56 160 160ZM200-640v440h560v-440H200Zm0 520q-33 0-56.5-23.5T120-200v-499q0-14 4.5-27t13.5-24l50-61q11-14 27.5-21.5T250-840h460q18 0 34.5 7.5T772-811l50 61q9 11 13.5 24t4.5 27v499q0 33-23.5 56.5T760-120H200Zm16-600h528l-34-40H250l-34 40Zm264 300Z"/>
+                            </svg>
+                            {{ __('My History') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -96,26 +121,51 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-gray-50 border-t border-blue-100">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="flex items-center gap-2">
-                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
-                            <path d="M528-624v-192h288v192H528ZM144-432v-384h288v384H144Zm384 288v-384h288v384H528Zm-384 0v-192h288v192H144Z"/>
-                        </svg>
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+            @if(Auth::user()->is_admin)
+                <!-- Admin Responsive Navigation -->
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="flex items-center gap-2">
+                    <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                        <path d="M528-624v-192h288v192H528ZM144-432v-384h288v384H144Zm384 288v-384h288v384H528Zm-384 0v-192h288v192H144Z"/>
+                    </svg>
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')" class="flex items-center gap-2">
-                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
-                            <path d="M384-408h192v-72H384v72Zm0-120h336v-72H384v72Zm0-120h336v-72H384v72Zm-72 408q-29.7 0-50.85-21.15Q240-282.3 240-312v-480q0-29.7 21.15-50.85Q282.3-864 312-864h480q29.7 0 50.85 21.15Q864-821.7 864-792v480q0 29.7-21.15 50.85Q821.7-240 792-240H312ZM168-96q-29.7 0-50.85-21.15Q96-138.3 96-168v-552h72v552h552v72H168Z"/>
-                        </svg>
-                {{ __('Book Catalog') }}
-            </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')" class="flex items-center gap-2">
+                    <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                        <path d="M384-408h192v-72H384v72Zm0-120h336v-72H384v72Zm0-120h336v-72H384v72Zm-72 408q-29.7 0-50.85-21.15Q240-282.3 240-312v-480q0-29.7 21.15-50.85Q282.3-864 312-864h480q29.7 0 50.85 21.15Q864-821.7 864-792v480q0 29.7-21.15 50.85Q821.7-240 792-240H312ZM168-96q-29.7 0-50.85-21.15Q96-138.3 96-168v-552h72v552h552v72H168Z"/>
+                    </svg>
+                    {{ __('Book Catalog') }}
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('books.archive')" :active="request()->routeIs('books.archive')" class="flex items-center gap-2">
-                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
-                            <path d="m480-240 160-160-56-56-64 64v-168h-80v168l-64-64-56 56 160 160ZM200-640v440h560v-440H200Zm0 520q-33 0-56.5-23.5T120-200v-499q0-14 4.5-27t13.5-24l50-61q11-14 27.5-21.5T250-840h460q18 0 34.5 7.5T772-811l50 61q9 11 13.5 24t4.5 27v499q0 33-23.5 56.5T760-120H200Zm16-600h528l-34-40H250l-34 40Zm264 300Z"/>
-                        </svg>
-                {{ __('Archive') }}
-            </x-responsive-nav-link>            
+                <x-responsive-nav-link :href="route('books.archive')" :active="request()->routeIs('books.archive')" class="flex items-center gap-2">
+                    <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                        <path d="m480-240 160-160-56-56-64 64v-168h-80v168l-64-64-56 56 160 160ZM200-640v440h560v-440H200Zm0 520q-33 0-56.5-23.5T120-200v-499q0-14 4.5-27t13.5-24l50-61q11-14 27.5-21.5T250-840h460q18 0 34.5 7.5T772-811l50 61q9 11 13.5 24t4.5 27v499q0 33-23.5 56.5T760-120H200Zm16-600h528l-34-40H250l-34 40Zm264 300Z"/>
+                    </svg>
+                    {{ __('Archive') }}
+                </x-responsive-nav-link>
+            @else
+                <!-- Student Responsive Navigation -->
+                <x-responsive-nav-link :href="route('student.dashboard')" :active="request()->routeIs('student.dashboard')" class="flex items-center gap-2">
+                    <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                        <path d="M528-624v-192h288v192H528ZM144-432v-384h288v384H144Zm384 288v-384h288v384H528Zm-384 0v-192h288v192H144Z"/>
+                    </svg>
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('student.browse-books')" :active="request()->routeIs('student.browse-books')" class="flex items-center gap-2">
+                    <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                        <path d="M384-408h192v-72H384v72Zm0-120h336v-72H384v72Zm0-120h336v-72H384v72Zm-72 408q-29.7 0-50.85-21.15Q240-282.3 240-312v-480q0-29.7 21.15-50.85Q282.3-864 312-864h480q29.7 0 50.85 21.15Q864-821.7 864-792v480q0 29.7-21.15 50.85Q821.7-240 792-240H312ZM168-96q-29.7 0-50.85-21.15Q96-138.3 96-168v-552h72v552h552v72H168Z"/>
+                    </svg>
+                    {{ __('Browse Books') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('student.history')" :active="request()->routeIs('student.history')" class="flex items-center gap-2">
+                    <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 -960 960 960">
+                        <path d="m480-240 160-160-56-56-64 64v-168h-80v168l-64-64-56 56 160 160ZM200-640v440h560v-440H200Zm0 520q-33 0-56.5-23.5T120-200v-499q0-14 4.5-27t13.5-24l50-61q11-14 27.5-21.5T250-840h460q18 0 34.5 7.5T772-811l50 61q9 11 13.5 24t4.5 27v499q0 33-23.5 56.5T760-120H200Zm16-600h528l-34-40H250l-34 40Zm264 300Z"/>
+                    </svg>
+                    {{ __('My History') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

@@ -22,6 +22,48 @@
             <x-input-error :messages="$errors->get('name')" class="mt-2 text-sm text-red-600" />
         </div>
 
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                <div class="mt-1">
+                    <input id="first_name" type="text" name="first_name" value="{{ old('first_name') }}" required autocomplete="given-name" 
+                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm"
+                        placeholder="First name">
+                </div>
+                <x-input-error :messages="$errors->get('first_name')" class="mt-2 text-sm text-red-600" />
+            </div>
+
+            <div>
+                <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                <div class="mt-1">
+                    <input id="last_name" type="text" name="last_name" value="{{ old('last_name') }}" required autocomplete="family-name" 
+                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm"
+                        placeholder="Last name">
+                </div>
+                <x-input-error :messages="$errors->get('last_name')" class="mt-2 text-sm text-red-600" />
+            </div>
+        </div>
+
+        <div>
+            <label for="student_id_number" class="block text-sm font-medium text-gray-700">Student ID Number</label>
+            <div class="mt-1">
+                <input id="student_id_number" type="text" name="student_id_number" value="{{ old('student_id_number') }}" required autocomplete="username" 
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm"
+                    placeholder="e.g., 2024001">
+            </div>
+            <x-input-error :messages="$errors->get('student_id_number')" class="mt-2 text-sm text-red-600" />
+        </div>
+
+        <div>
+            <label for="course_and_section" class="block text-sm font-medium text-gray-700">Course and Section</label>
+            <div class="mt-1">
+                <input id="course_and_section" type="text" name="course_and_section" value="{{ old('course_and_section') }}" required 
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm"
+                    placeholder="e.g., BSCS 2A">
+            </div>
+            <x-input-error :messages="$errors->get('course_and_section')" class="mt-2 text-sm text-red-600" />
+        </div>
+
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
             <div class="mt-1">

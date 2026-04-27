@@ -128,18 +128,18 @@
                                             <div class="text-[11px] text-gray-500">{{ $book->deleted_at->diffForHumans() }}</div>
                                         </td>
                                         <td class="py-4 px-6 text-right">
-                                            <div class="flex justify-end gap-3">
+                                            <div class="flex justify-end">
                                                 <button 
                                                     @click="showRestoreModal = true; actionUrl = '/books/{{ $book->id }}/restore'"
-                                                    class="inline-flex items-center gap-1 text-green-600 hover:text-green-800 hover:bg-green-50 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tighter transition-colors duration-200">
+                                                    class="inline-flex items-center gap-1 text-green-600 hover:text-green-800 hover:bg-green-50 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tighter transition-colors duration-200" title="Restore Book">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                                                    Restore
+                                                    
                                                 </button>
                                                 <button 
                                                     @click="showDeleteModal = true; actionUrl = '/books/{{ $book->id }}/force-delete'"
-                                                    class="inline-flex items-center gap-1 text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tighter transition-colors duration-200">
-                                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 -960 960 960"><path d="m480-240 160-160-56-56-64 64v-168h-80v168l-64-64-56 56 160 160ZM200-640v440h560v-440H200Zm0 520q-33 0-56.5-23.5T120-200v-499q0-14 4.5-27t13.5-24l50-61q11-14 27.5-21.5T250-840h460q18 0 34.5 7.5T772-811l50 61q9 11 13.5 24t4.5 27v499q0 33-23.5 56.5T760-120H200Zm16-600h528l-34-40H250l-34 40Zm264 300Z"/></svg>
-                                                    Delete Permanently
+                                                    class="inline-flex items-center gap-1 text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tighter transition-colors duration-200" title="Delete Permanently">
+                                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 -960 960 960"><path d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z"/></svg>
+                                                    
                                                 </button>
                                             </div>
                                         </td>

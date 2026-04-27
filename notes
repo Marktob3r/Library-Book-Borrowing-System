@@ -15,3 +15,9 @@ Wipe only Books
 
 Undo last migration
 \\ php artisan migrate:rollback
+
+Revisions:
+1. Add show/hide password field using eye symbol in login & sign up
+2. Remove fullname field in sign up
+3. Max number in Student ID Number is 9 e.g. 202311074
+4. Course and Section should be a selection (Course = BSIT, BSCS, BSEMC) (Year Level = 1, 2, 3, 4) (Block = A-Z)
