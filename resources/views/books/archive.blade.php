@@ -10,18 +10,17 @@
             </div>
         </x-slot>
 
-        <div class="py-12 bg-gradient-to-br from-blue-50 to-white min-h-screen">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                
-                @if (session('success'))
-                    <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6 flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        {{ session('success') }}
-                    </div>
-                @endif
+        <div class="py-12 bg-gradient-to-br from-blue-50 to-white min-h-screen relative overflow-hidden">
+            {{-- Decorative background --}}
+            <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <div class="absolute -top-24 -right-24 w-80 h-80 bg-blue-200 rounded-full opacity-10 animate-pulse-soft"></div>
+                <div class="absolute bottom-10 -left-16 w-64 h-64 bg-blue-300 rounded-full opacity-10 animate-pulse-soft" style="animation-delay: 3s;"></div>
+            </div>
+
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 relative">
 
                 <!-- Search & Filter Section -->
-                <div class="bg-white rounded-xl shadow-md p-6 mb-8 border border-blue-50">
+                <div class="bg-white rounded-xl shadow-md p-6 mb-8 border border-blue-50 animate-fade-in">
                     <div class="flex flex-col md:flex-row justify-between items-stretch gap-4">
                         <div class="flex flex-col sm:flex-row flex-1 items-center gap-3">
                             <form action="{{ route('books.archive') }}" method="GET" class="relative w-full sm:flex-1">
@@ -57,7 +56,7 @@
                 </div>
 
                 <!-- Books Table -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden border border-blue-50">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border border-blue-50 animate-slide-up" style="animation-delay: .1s;">
                     <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
                         <table class="w-full text-left border-collapse">
                             <thead class="sticky top-0 z-20">

@@ -35,8 +35,9 @@
             <label for="student_id_number" class="block text-sm font-medium text-gray-700">Student ID Number</label>
             <input id="student_id_number" type="text" name="student_id_number" value="{{ old('student_id_number') }}" required autocomplete="username" 
                 inputmode="numeric" pattern="[0-9]*" maxlength="9"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                 class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm text-sm"
-                placeholder="e.g., 202311074">
+                placeholder="e.g., 202422105">
             <x-input-error :messages="$errors->get('student_id_number')" class="mt-1 text-xs text-red-600" />
         </div>
 
@@ -69,8 +70,9 @@
                 <label for="block" class="block text-sm font-medium text-gray-700">Block</label>
                 <input id="block" type="text" name="block" value="{{ old('block') }}" required 
                     inputmode="text" pattern="[A-Za-z]" maxlength="1"
+                    oninput="this.value = this.value.replace(/[^A-Za-z]/g, '').toUpperCase()"
                     class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm text-sm uppercase"
-                    placeholder="A-Z" onkeyup="this.value = this.value.toUpperCase()">
+                    placeholder="A-Z">
                 <x-input-error :messages="$errors->get('block')" class="mt-1 text-xs text-red-600" />
             </div>
         </div>
@@ -80,7 +82,7 @@
             <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
             <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" 
                 class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm text-sm"
-                placeholder="student@example.com">
+                placeholder="student@gmail.com">
             <x-input-error :messages="$errors->get('email')" class="mt-1 text-xs text-red-600" />
         </div>
 

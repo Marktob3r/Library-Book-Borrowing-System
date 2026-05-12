@@ -17,7 +17,7 @@ class StudentSeeder extends Seeder
         $studentData = [
             [
                 'name' => 'John Doe',
-                'email' => 'john@student.com',
+                'email' => 'john@gmail.com',
                 'student_id_number' => '202401001',
                 'first_name' => 'John',
                 'last_name' => 'Doe',
@@ -27,7 +27,7 @@ class StudentSeeder extends Seeder
             ],
             [
                 'name' => 'Jane Smith',
-                'email' => 'jane@student.com',
+                'email' => 'jane@gmail.com',
                 'student_id_number' => '202401002',
                 'first_name' => 'Jane',
                 'last_name' => 'Smith',
@@ -37,7 +37,7 @@ class StudentSeeder extends Seeder
             ],
             [
                 'name' => 'Michael Johnson',
-                'email' => 'michael@student.com',
+                'email' => 'michael@gmail.com',
                 'student_id_number' => '202401003',
                 'first_name' => 'Michael',
                 'last_name' => 'Johnson',
@@ -47,7 +47,7 @@ class StudentSeeder extends Seeder
             ],
             [
                 'name' => 'Sarah Williams',
-                'email' => 'sarah@student.com',
+                'email' => 'sarah@gmail.com',
                 'student_id_number' => '202401004',
                 'first_name' => 'Sarah',
                 'last_name' => 'Williams',

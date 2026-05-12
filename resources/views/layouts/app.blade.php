@@ -9,7 +9,7 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -31,33 +31,98 @@
             <main>
                 {{ $slot }}
             </main>
+
+            <!-- Footer decoration -->
+            <div class="h-1 bg-gradient-to-r from-blue-500 via-blue-400 to-blue-600"></div>
         </div>
-        <div x-data="{ 
-                show: false, 
-                message: '',
+
+        {{-- ─── Toast Notification System ─── --}}
+        <div x-data="{
+                toasts: [],
+                addToast(message, type) {
+                    const id = Date.now();
+                    this.toasts.push({ id, message, type });
+                    setTimeout(() => this.removeToast(id), 4500);
+                },
+                removeToast(id) {
+                    this.toasts = this.toasts.filter(t => t.id !== id);
+                },
                 init() {
                     @if(session('success'))
-                        this.message = '{{ session('success') }}';
-                        this.show = true;
-                        setTimeout(() => this.show = false, 4000);
+                        this.addToast('{{ session('success') }}', 'success');
+                    @endif
+                    @if(session('error'))
+                        this.addToast('{{ session('error') }}', 'error');
+                    @endif
+                    @if(session('info'))
+                        this.addToast('{{ session('info') }}', 'info');
                     @endif
                 }
             }"
-            x-show="show"
-            x-transition:enter="transform transition ease-out duration-300"
-            x-transition:enter-start="translate-x-full opacity-0"
-            x-transition:enter-end="translate-x-0 opacity-100"
-            x-transition:leave="transform transition ease-in duration-300"
-            x-transition:leave-start="translate-x-0 opacity-100"
-            x-transition:leave-end="translate-x-full opacity-0"
-            class="fixed top-5 right-5 z-[100] max-w-sm w-full bg-white border-l-4 border-green-500 shadow-2xl p-4 rounded-r-lg flex items-center space-x-3"
-            style="display: none;"
+            class="fixed top-5 right-5 z-[100] flex flex-col gap-3 max-w-sm w-full pointer-events-none"
             x-cloak>
-            
-            <div class="bg-green-100 p-2 rounded-full">
-                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-            </div>
-            <p class="text-sm font-bold text-gray-800" x-text="message"></p>
+
+            <template x-for="toast in toasts" :key="toast.id">
+                <div x-show="true"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="translate-x-full opacity-0"
+                     x-transition:enter-end="translate-x-0 opacity-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="translate-x-0 opacity-100"
+                     x-transition:leave-end="translate-x-full opacity-0"
+                     class="pointer-events-auto bg-white rounded-xl shadow-2xl border overflow-hidden"
+                     :class="{
+                        'border-green-200': toast.type === 'success',
+                        'border-red-200':   toast.type === 'error',
+                        'border-blue-200':  toast.type === 'info'
+                     }">
+
+                    {{-- Progress bar --}}
+                    <div class="h-1 rounded-full animate-[shrink_4.5s_linear_forwards]"
+                         :class="{
+                            'bg-green-500': toast.type === 'success',
+                            'bg-red-500':   toast.type === 'error',
+                            'bg-blue-500':  toast.type === 'info'
+                         }"></div>
+
+                    <div class="p-4 flex items-start gap-3">
+                        {{-- Icon --}}
+                        <div class="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center"
+                             :class="{
+                                'bg-green-100': toast.type === 'success',
+                                'bg-red-100':   toast.type === 'error',
+                                'bg-blue-100':  toast.type === 'info'
+                             }">
+                            {{-- Success icon --}}
+                            <svg x-show="toast.type === 'success'" class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            {{-- Error icon --}}
+                            <svg x-show="toast.type === 'error'" class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            {{-- Info icon --}}
+                            <svg x-show="toast.type === 'info'" class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+
+                        {{-- Message --}}
+                        <p class="text-sm font-semibold text-gray-800 flex-1 pt-1" x-text="toast.message"></p>
+
+                        {{-- Close --}}
+                        <button @click="removeToast(toast.id)" class="text-gray-400 hover:text-gray-600 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </template>
         </div>
+
+        <style>
+            @keyframes shrink { from { width: 100%; } to { width: 0%; } }
+        </style>
     </body>
 </html>
