@@ -32,17 +32,18 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'student_id_number' => ['required', 'string', 'unique:students,student_id_number'],
+            'student_id_number' => ['required', 'numeric', 'digits:9', 'unique:students,student_id_number'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'course_and_section' => ['required', 'string', 'max:255'],
+            'course' => ['required', 'string', 'in:BSIT,BSCS,BSEMC'],
+            'year_level' => ['required', 'integer', 'in:1,2,3,4'],
+            'block' => ['required', 'string', 'regex:/^[A-Z]$/', 'size:1'],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'name' => $request->first_name . ' ' . $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'is_admin' => false,
@@ -54,7 +55,9 @@ class RegisteredUserController extends Controller
             'student_id_number' => $request->student_id_number,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'course_and_section' => $request->course_and_section,
+            'course' => $request->course,
+            'year_level' => $request->year_level,
+            'block' => $request->block,
         ]);
 
         event(new Registered($user));

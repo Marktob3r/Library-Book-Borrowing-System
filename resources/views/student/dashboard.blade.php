@@ -11,7 +11,7 @@
             <div class="mb-8">
                 <div class="bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg sm:rounded-lg p-6 text-white">
                     <h1 class="text-3xl font-bold mb-2">Welcome, {{ $student->first_name }}!</h1>
-                    <p class="text-blue-100">{{ $student->course_and_section }} | ID: {{ $student->student_id_number }}</p>
+                    <p class="text-blue-100">{{ $student->course }} - Year {{ $student->year_level }} | Block {{ $student->block }} | ID: {{ $student->student_id_number }}</p>
                 </div>
             </div>
 

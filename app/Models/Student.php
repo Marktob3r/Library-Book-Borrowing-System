@@ -14,7 +14,9 @@ class Student extends Model
         'student_id_number',
         'first_name',
         'last_name',
-        'course_and_section',
+        'course',
+        'year_level',
+        'block',
     ];
 
     /**
