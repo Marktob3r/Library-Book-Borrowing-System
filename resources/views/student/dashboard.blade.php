@@ -4,7 +4,6 @@
             <h2 class="font-bold text-3xl text-gray-900 leading-tight">
                 {{ __('Student Dashboard') }}
             </h2>
-            <p class="text-sm text-gray-500">Welcome back, {{ $student->first_name }}</p>
         </div>
     </x-slot>
 
@@ -173,6 +172,4 @@
                 </div>
             </div>
 
-        </div>
-    </div>
 </x-app-layout>
