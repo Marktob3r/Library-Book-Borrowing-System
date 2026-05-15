@@ -17,23 +17,23 @@
         {{-- Decorative floating shapes --}}
         <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
             {{-- Large circle top-left --}}
-            <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-200 rounded-full opacity-20 animate-pulse-soft"></div>
+            <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-200 rounded-full opacity-30 animate-pulse-soft"></div>
             {{-- Small circle bottom-right --}}
-            <div class="absolute -bottom-16 -right-16 w-72 h-72 bg-blue-300 rounded-full opacity-15 animate-pulse-soft" style="animation-delay: 2s;"></div>
+            <div class="absolute -bottom-16 -right-16 w-72 h-72 bg-blue-300 rounded-full opacity-25 animate-pulse-soft" style="animation-delay: 2s;"></div>
             {{-- Floating book icon 1 --}}
-            <div class="absolute top-1/4 right-[15%] animate-float opacity-10">
+            <div class="absolute top-1/4 right-[15%] animate-float opacity-20">
                 <svg class="w-20 h-20 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.669 0-3.218.51-4.5 1.385A7.968 7.968 0 009 4.804z"/>
                 </svg>
             </div>
             {{-- Floating book icon 2 --}}
-            <div class="absolute bottom-1/4 left-[10%] animate-float-delayed opacity-10">
+            <div class="absolute bottom-1/4 left-[10%] animate-float-delayed opacity-20">
                 <svg class="w-16 h-16 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.669 0-3.218.51-4.5 1.385A7.968 7.968 0 009 4.804z"/>
                 </svg>
             </div>
             {{-- Floating book icon 3 --}}
-            <div class="absolute top-[60%] right-[8%] animate-float-slow opacity-[0.07]">
+            <div class="absolute top-[60%] right-[8%] animate-float-slow opacity-15">
                 <svg class="w-24 h-24 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.669 0-3.218.51-4.5 1.385A7.968 7.968 0 009 4.804z"/>
                 </svg>

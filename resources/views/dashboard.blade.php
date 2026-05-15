@@ -10,9 +10,9 @@
     <div class="py-12 bg-gradient-to-br from-blue-50 to-white min-h-screen relative overflow-hidden">
         {{-- Decorative background shapes --}}
         <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-            <div class="absolute -top-32 -right-32 w-96 h-96 bg-blue-200 rounded-full opacity-10 animate-pulse-soft"></div>
-            <div class="absolute bottom-20 -left-20 w-72 h-72 bg-blue-300 rounded-full opacity-10 animate-pulse-soft" style="animation-delay: 2s;"></div>
-            <div class="absolute top-1/3 right-[5%] animate-float opacity-[0.04]">
+            <div class="absolute -top-32 -right-32 w-96 h-96 bg-blue-200 rounded-full opacity-[0.25] animate-pulse-soft"></div>
+            <div class="absolute bottom-20 -left-20 w-72 h-72 bg-blue-300 rounded-full opacity-[0.25] animate-pulse-soft" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/3 right-[5%] animate-float opacity-20">
                 <svg class="w-32 h-32 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.669 0-3.218.51-4.5 1.385A7.968 7.968 0 009 4.804z"/>
                 </svg>
@@ -27,7 +27,7 @@
                 <div class="bg-white overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 animate-slide-up">
                     <div class="relative p-8 bg-gradient-to-br from-blue-500 to-blue-600 overflow-hidden">
                         <div class="absolute top-0 right-0 w-24 h-24 bg-blue-400 rounded-full opacity-20 -mr-10 -mt-10 animate-pulse-soft"></div>
-                        <div class="absolute bottom-0 left-0 w-16 h-16 bg-blue-300 rounded-full opacity-10 -ml-6 -mb-6"></div>
+                        <div class="absolute bottom-0 left-0 w-16 h-16 bg-blue-300 rounded-full opacity-[0.25] -ml-6 -mb-6"></div>
                         <div class="relative">
                             <div class="flex items-center justify-between">
                                 <div>

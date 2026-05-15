@@ -10,8 +10,8 @@
     <div class="py-12 relative animate-fade-in">
         {{-- Decorative background shapes --}}
         <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-            <div class="absolute -top-32 -right-32 w-96 h-96 bg-blue-200 rounded-full opacity-10 animate-pulse-soft"></div>
-            <div class="absolute top-1/2 -left-32 w-80 h-80 bg-blue-300 rounded-full opacity-10 animate-pulse-soft" style="animation-delay: 2s;"></div>
+            <div class="absolute -top-32 -right-32 w-96 h-96 bg-blue-200 rounded-full opacity-[0.25] animate-pulse-soft"></div>
+            <div class="absolute top-1/2 -left-32 w-80 h-80 bg-blue-300 rounded-full opacity-[0.25] animate-pulse-soft" style="animation-delay: 2s;"></div>
         </div>
 
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6 relative z-10 stagger">

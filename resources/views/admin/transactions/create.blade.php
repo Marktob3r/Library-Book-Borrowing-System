@@ -13,8 +13,8 @@
     <div class="py-12 bg-gradient-to-br from-blue-50 to-white min-h-screen relative overflow-hidden">
         {{-- Decorative background shapes --}}
         <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-            <div class="absolute -top-32 -right-32 w-96 h-96 bg-blue-200 rounded-full opacity-10 animate-pulse-soft"></div>
-            <div class="absolute bottom-20 -left-20 w-72 h-72 bg-blue-300 rounded-full opacity-10 animate-pulse-soft" style="animation-delay: 2s;"></div>
+            <div class="absolute -top-32 -right-32 w-96 h-96 bg-blue-200 rounded-full opacity-[0.25] animate-pulse-soft"></div>
+            <div class="absolute bottom-20 -left-20 w-72 h-72 bg-blue-300 rounded-full opacity-[0.25] animate-pulse-soft" style="animation-delay: 2s;"></div>
         </div>
 
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 relative z-10">

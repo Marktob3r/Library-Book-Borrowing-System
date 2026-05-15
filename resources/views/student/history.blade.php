@@ -10,8 +10,8 @@
     <div class="py-12 bg-gradient-to-br from-blue-50 to-white min-h-screen relative overflow-hidden">
         {{-- Decorative background --}}
         <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-            <div class="absolute -top-24 -right-24 w-80 h-80 bg-blue-200 rounded-full opacity-10 animate-pulse-soft"></div>
-            <div class="absolute bottom-10 -left-16 w-64 h-64 bg-blue-300 rounded-full opacity-10 animate-pulse-soft" style="animation-delay: 3s;"></div>
+            <div class="absolute -top-24 -right-24 w-80 h-80 bg-blue-200 rounded-full opacity-[0.25] animate-pulse-soft"></div>
+            <div class="absolute bottom-10 -left-16 w-64 h-64 bg-blue-300 rounded-full opacity-[0.25] animate-pulse-soft" style="animation-delay: 3s;"></div>
         </div>
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 relative">

@@ -15,10 +15,13 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->is_admin) {
-            return $next($request);
+        if (auth()->check()) {
+            if (auth()->user()->is_admin) {
+                return $next($request);
+            }
+            return redirect()->route('student.dashboard')->with('error', 'You are not authorized to access the admin area.');
         }
 
-        return redirect()->route('login')->with('error', 'You are not authorized to access this page.');
+        return redirect()->route('login');
     }
 }
