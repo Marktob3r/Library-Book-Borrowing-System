@@ -90,7 +90,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Borrow a book
+     * Request to borrow a book (creates a Pending transaction)
      */
     public function borrow(Request $request, $bookId)
     {
@@ -103,40 +103,34 @@ class StudentController extends Controller
 
         $book = Book::findOrFail($bookId);
 
-        // Check if book is available
+        // Check if book has copies at all
         if ($book->available_quantity <= 0) {
             return back()->with('error', 'This book is currently out of stock.');
         }
 
-        // Check if student has already borrowed this book and not returned it
-        $existingBorrow = BorrowTransaction::where('student_id', $student->id)
+        // Check if student already has an active or pending borrow for this book
+        $existingActive = BorrowTransaction::where('student_id', $student->id)
             ->where('book_id', $bookId)
-            ->where('status', 'Borrowed')
+            ->whereIn('status', ['Pending', 'Borrowed', 'Return Requested'])
             ->exists();
 
-        if ($existingBorrow) {
-            return back()->with('error', 'You have already borrowed this book. Please return it before borrowing another copy.');
+        if ($existingActive) {
+            return back()->with('error', 'You already have an active or pending request for this book.');
         }
 
-        // Create the borrow transaction
+        // Create a PENDING borrow request — admin must approve
         BorrowTransaction::create([
             'student_id' => $student->id,
-            'book_id' => $bookId,
+            'book_id'    => $bookId,
             'borrowed_at' => now(),
-            'status' => 'Borrowed',
+            'status'     => 'Pending',
         ]);
 
-        // Update book availability
-        $book->update([
-            'available_quantity' => $book->available_quantity - 1,
-            'status' => $book->available_quantity - 1 > 0 ? 'Available' : 'Out of Stock',
-        ]);
-
-        return back()->with('success', 'Book borrowed successfully! You can return it anytime.');
+        return back()->with('success', 'Borrow request submitted! Please wait for librarian approval.');
     }
 
     /**
-     * Return a book
+     * Request to return a book (changes status to Return Requested)
      */
     public function returnBook(Request $request, $transactionId)
     {
@@ -144,28 +138,17 @@ class StudentController extends Controller
         $user = Auth::user();
         $student = $user->student;
 
-        // Verify the transaction belongs to the student
         if ($transaction->student_id !== $student->id) {
             return back()->with('error', 'Unauthorized action.');
         }
 
-        if ($transaction->status === 'Returned') {
-            return back()->with('info', 'This book has already been returned.');
+        if ($transaction->status !== 'Borrowed') {
+            return back()->with('info', 'This transaction cannot be returned at this time.');
         }
 
-        // Update transaction
-        $transaction->update([
-            'returned_at' => now(),
-            'status' => 'Returned',
-        ]);
+        // Mark as Return Requested — admin must confirm physical return
+        $transaction->update(['status' => 'Return Requested']);
 
-        // Update book availability
-        $book = $transaction->book;
-        $book->update([
-            'available_quantity' => $book->available_quantity + 1,
-            'status' => 'Available',
-        ]);
-
-        return back()->with('success', 'Book returned successfully. Thank you!');
+        return back()->with('success', 'Return request submitted! The librarian will confirm once you hand the book back.');
     }
 }

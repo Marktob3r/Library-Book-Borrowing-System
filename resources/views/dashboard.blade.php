@@ -22,7 +22,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 relative">
 
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 stagger">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6 mb-8 stagger">
                 <!-- Total Books Card -->
                 <div class="bg-white overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 animate-slide-up">
                     <div class="relative p-8 bg-gradient-to-br from-blue-500 to-blue-600 overflow-hidden">
@@ -80,6 +80,42 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Pending Requests Card -->
+                <a href="{{ route('transactions.index', ['status' => 'Pending']) }}" class="bg-white overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 animate-slide-up block">
+                    <div class="relative p-8 bg-gradient-to-br from-yellow-400 to-yellow-500 overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-yellow-300 rounded-full opacity-20 -mr-10 -mt-10 animate-pulse-soft"></div>
+                        <div class="absolute bottom-0 left-0 w-16 h-16 bg-yellow-200 rounded-full opacity-20 -ml-6 -mb-6"></div>
+                        <div class="relative">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-yellow-100 text-sm font-semibold mb-2">Pending</p>
+                                    <p class="text-white text-4xl font-bold animate-count-pop" style="animation-delay: .3s;">{{ $pendingRequests }}</p>
+                                </div>
+                                <svg class="w-12 h-12 text-yellow-200 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            </div>
+                            <p class="text-yellow-100 text-xs mt-4">Awaiting approval</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Return Requests Card -->
+                <a href="{{ route('transactions.index', ['status' => 'Return Requested']) }}" class="bg-white overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 animate-slide-up block">
+                    <div class="relative p-8 bg-gradient-to-br from-orange-500 to-orange-600 overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-orange-400 rounded-full opacity-20 -mr-10 -mt-10 animate-pulse-soft"></div>
+                        <div class="absolute bottom-0 left-0 w-16 h-16 bg-orange-300 rounded-full opacity-20 -ml-6 -mb-6"></div>
+                        <div class="relative">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-orange-100 text-sm font-semibold mb-2">Returns</p>
+                                    <p class="text-white text-4xl font-bold animate-count-pop" style="animation-delay: .4s;">{{ $returnRequests }}</p>
+                                </div>
+                                <svg class="w-12 h-12 text-orange-200 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg>
+                            </div>
+                            <p class="text-orange-100 text-xs mt-4">Awaiting confirmation</p>
+                        </div>
+                    </div>
+                </a>
             </div>
 
             <!-- Recent Transactions Section -->
@@ -127,8 +163,17 @@
                                             <td class="py-4 px-6 text-sm text-gray-600">{{ $transaction->borrowed_at->format('M d, Y h:i A') }}</td>
                                             <td class="py-4 px-6 text-sm text-gray-600">{{ $transaction->returned_at ? $transaction->returned_at->format('M d, Y h:i A') : '—' }}</td>
                                             <td class="py-4 px-6 text-center">
-                                                <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                                    {{ $transaction->status === 'Borrowed' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700' }}">
+                                                @php
+                                                    $badge = match($transaction->status) {
+                                                        'Pending'          => 'bg-yellow-100 text-yellow-700',
+                                                        'Borrowed'         => 'bg-blue-100 text-blue-700',
+                                                        'Return Requested' => 'bg-orange-100 text-orange-700',
+                                                        'Returned'         => 'bg-green-100 text-green-700',
+                                                        'Rejected'         => 'bg-red-100 text-red-700',
+                                                        default            => 'bg-gray-100 text-gray-700',
+                                                    };
+                                                @endphp
+                                                <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $badge }}">
                                                     {{ $transaction->status }}
                                                 </span>
                                             </td>

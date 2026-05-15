@@ -19,21 +19,13 @@
             {{-- Filter Tabs --}}
             <div class="bg-white rounded-xl shadow-md p-5 mb-8 border border-blue-50 animate-fade-in">
                 <div class="flex flex-wrap gap-2">
-                    <a href="{{ route('student.history') }}"
-                       class="px-5 py-2 rounded-lg font-semibold text-sm transition-all duration-200
-                           {{ !request('status') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md' : 'bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200' }}">
-                        All
-                    </a>
-                    <a href="{{ route('student.history', ['status' => 'Borrowed']) }}"
-                       class="px-5 py-2 rounded-lg font-semibold text-sm transition-all duration-200
-                           {{ request('status') === 'Borrowed' ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md' : 'bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200' }}">
-                        Currently Borrowed
-                    </a>
-                    <a href="{{ route('student.history', ['status' => 'Returned']) }}"
-                       class="px-5 py-2 rounded-lg font-semibold text-sm transition-all duration-200
-                           {{ request('status') === 'Returned' ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md' : 'bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200' }}">
-                        Returned
-                    </a>
+                    @foreach(['' => 'All', 'Pending' => '⏳ Pending', 'Borrowed' => '📖 Borrowed', 'Return Requested' => '🔄 Return Requested', 'Returned' => '✅ Returned', 'Rejected' => '❌ Rejected'] as $val => $label)
+                        <a href="{{ route('student.history', $val ? ['status' => $val] : []) }}"
+                           class="px-5 py-2 rounded-lg font-semibold text-sm transition-all duration-200
+                               {{ request('status', '') === $val ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md' : 'bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200' }}">
+                            {{ $label }}
+                        </a>
+                    @endforeach
                 </div>
             </div>
 
@@ -46,9 +38,8 @@
                                 <tr class="bg-blue-50 text-gray-700 uppercase text-[11px] font-bold border-b border-blue-200">
                                     <th class="py-3 px-6">Book Title</th>
                                     <th class="py-3 px-6">Author</th>
-                                    <th class="py-3 px-6">ISBN</th>
-                                    <th class="py-3 px-6">Borrowed Date</th>
-                                    <th class="py-3 px-6">Returned Date</th>
+                                    <th class="py-3 px-6">Requested On</th>
+                                    <th class="py-3 px-6">Returned On</th>
                                     <th class="py-3 px-6 text-center">Status</th>
                                     <th class="py-3 px-6 text-right">Action</th>
                                 </tr>
@@ -58,26 +49,46 @@
                                     <tr class="hover:bg-blue-50/80 transition-colors duration-150">
                                         <td class="py-4 px-6 text-sm font-semibold text-gray-900">{{ $transaction->book->title }}</td>
                                         <td class="py-4 px-6 text-sm text-gray-600">{{ $transaction->book->author }}</td>
-                                        <td class="py-4 px-6 text-sm text-gray-500 font-mono">{{ $transaction->book->isbn }}</td>
                                         <td class="py-4 px-6 text-sm text-gray-600">{{ $transaction->borrowed_at->format('M d, Y h:i A') }}</td>
                                         <td class="py-4 px-6 text-sm text-gray-600">
                                             {{ $transaction->returned_at ? $transaction->returned_at->format('M d, Y h:i A') : '—' }}
                                         </td>
                                         <td class="py-4 px-6 text-center">
-                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                                {{ $transaction->status === 'Borrowed' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700' }}">
+                                            @php
+                                                $badge = match($transaction->status) {
+                                                    'Pending'          => 'bg-yellow-100 text-yellow-700',
+                                                    'Borrowed'         => 'bg-blue-100 text-blue-700',
+                                                    'Return Requested' => 'bg-orange-100 text-orange-700',
+                                                    'Returned'         => 'bg-green-100 text-green-700',
+                                                    'Rejected'         => 'bg-red-100 text-red-700',
+                                                    default            => 'bg-gray-100 text-gray-700',
+                                                };
+                                            @endphp
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $badge }}">
                                                 {{ $transaction->status }}
                                             </span>
+                                            @if($transaction->status === 'Rejected' && $transaction->rejected_reason)
+                                                <div class="text-xs text-red-400 italic mt-1">{{ $transaction->rejected_reason }}</div>
+                                            @endif
                                         </td>
                                         <td class="py-4 px-6 text-right">
                                             @if($transaction->status === 'Borrowed')
+                                                {{-- Student requests a return --}}
                                                 <form action="{{ route('student.return-book', $transaction->id) }}" method="POST" class="inline">
                                                     @csrf
                                                     <button type="submit"
-                                                        class="inline-flex items-center gap-1 text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tighter transition-all duration-200">
-                                                        Return
+                                                        class="inline-flex items-center gap-1 bg-orange-50 border-2 border-orange-400 text-orange-600 hover:bg-orange-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-200">
+                                                        Request Return
                                                     </button>
                                                 </form>
+                                            @elseif($transaction->status === 'Pending')
+                                                <span class="inline-flex items-center px-3 py-1.5 bg-yellow-50 border-2 border-yellow-200 text-yellow-600 rounded-lg text-xs font-bold">
+                                                    Awaiting Approval
+                                                </span>
+                                            @elseif($transaction->status === 'Return Requested')
+                                                <span class="inline-flex items-center px-3 py-1.5 bg-orange-50 border-2 border-orange-200 text-orange-600 rounded-lg text-xs font-bold">
+                                                    Awaiting Confirmation
+                                                </span>
                                             @else
                                                 <span class="text-gray-400 text-sm">—</span>
                                             @endif
@@ -104,9 +115,9 @@
                         <p class="text-gray-500 text-center font-semibold mb-1">No transactions yet</p>
                         <p class="text-gray-400 text-sm mb-4">
                             @if(request('status'))
-                                No {{ strtolower(request('status')) }} books found.
+                                No {{ strtolower(request('status')) }} records found.
                             @else
-                                You haven't borrowed any books yet.
+                                You haven't made any borrow requests yet.
                             @endif
                         </p>
                         <a href="{{ route('student.browse-books') }}"

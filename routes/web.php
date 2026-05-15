@@ -19,14 +19,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
     
     Route::resource('books', BookController::class);
     
-    Route::resource('transactions', App\Http\Controllers\TransactionController::class)->except(['destroy', 'show', 'edit', 'update']);
+    Route::resource('transactions', App\Http\Controllers\TransactionController::class)->only(['index', 'create', 'store']);
+    Route::post('/transactions/{transaction}/approve', [App\Http\Controllers\TransactionController::class, 'approve'])->name('transactions.approve');
+    Route::post('/transactions/{transaction}/reject', [App\Http\Controllers\TransactionController::class, 'reject'])->name('transactions.reject');
+    Route::post('/transactions/{transaction}/confirm-return', [App\Http\Controllers\TransactionController::class, 'confirmReturn'])->name('transactions.confirm-return');
     Route::post('/transactions/{transaction}/return', [App\Http\Controllers\TransactionController::class, 'returnBook'])->name('transactions.return');
 
     Route::get('/dashboard', function () {
         return view('dashboard', [
-            'totalBooks' => Book::sum('total_quantity'),
-            'availableBooks' => Book::sum('available_quantity'),
-            'borrowedBooks' => BorrowTransaction::where('status', 'Borrowed')->count(),
+            'totalBooks'         => Book::sum('total_quantity'),
+            'availableBooks'     => Book::sum('available_quantity'),
+            'borrowedBooks'      => BorrowTransaction::where('status', 'Borrowed')->count(),
+            'pendingRequests'    => BorrowTransaction::where('status', 'Pending')->count(),
+            'returnRequests'     => BorrowTransaction::where('status', 'Return Requested')->count(),
             'recentTransactions' => BorrowTransaction::with(['student', 'book'])->latest()->take(5)->get(),
         ]);
     })->name('dashboard');

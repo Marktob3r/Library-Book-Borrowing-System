@@ -88,7 +88,7 @@
                                     <form action="{{ route('student.borrow', $book->id) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2.5 rounded-lg font-semibold text-sm transition-all duration-200 shadow-sm hover:shadow-md">
-                                            Borrow This Book
+                                            Request to Borrow
                                         </button>
                                     </form>
                                 @else
