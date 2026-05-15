@@ -13,8 +13,11 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <!-- HTMX for SPA-like navigation -->
+        <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     </head>
-    <body class="font-sans antialiased overflow-x-hidden">
+    <body class="font-sans antialiased overflow-x-hidden" hx-boost="true">
         <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
             @include('layouts.navigation')
 

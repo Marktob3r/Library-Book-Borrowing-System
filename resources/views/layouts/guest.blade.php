@@ -11,8 +11,11 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <!-- HTMX for SPA-like navigation -->
+        <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     </head>
-    <body class="font-sans text-gray-900 antialiased min-h-screen flex items-center justify-center selection:bg-blue-500 selection:text-white relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100">
+    <body class="font-sans text-gray-900 antialiased min-h-screen flex items-center justify-center selection:bg-blue-500 selection:text-white relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100" hx-boost="true">
 
         {{-- Decorative floating shapes --}}
         <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
