@@ -18,6 +18,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/books/{id}/force-delete', [BookController::class, 'forceDelete'])->name('books.forceDelete');
     
     Route::resource('books', BookController::class);
+    
+    Route::resource('transactions', App\Http\Controllers\TransactionController::class)->except(['destroy', 'show', 'edit', 'update']);
+    Route::post('/transactions/{transaction}/return', [App\Http\Controllers\TransactionController::class, 'returnBook'])->name('transactions.return');
 
     Route::get('/dashboard', function () {
         return view('dashboard', [

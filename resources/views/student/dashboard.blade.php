@@ -141,7 +141,7 @@
                                         <tr class="hover:bg-blue-50/80 transition-colors duration-150">
                                             <td class="py-4 px-6 text-sm font-semibold text-gray-900">{{ $transaction->book->title }}</td>
                                             <td class="py-4 px-6 text-sm text-gray-600">{{ $transaction->book->author }}</td>
-                                            <td class="py-4 px-6 text-sm text-gray-600">{{ $transaction->borrowed_at->format('M d, Y') }}</td>
+                                            <td class="py-4 px-6 text-sm text-gray-600">{{ $transaction->borrowed_at->format('M d, Y h:i A') }}</td>
                                             <td class="py-4 px-6 text-center">
                                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
                                                     {{ $transaction->status === 'Borrowed' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700' }}">

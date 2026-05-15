@@ -59,9 +59,9 @@
                                         <td class="py-4 px-6 text-sm font-semibold text-gray-900">{{ $transaction->book->title }}</td>
                                         <td class="py-4 px-6 text-sm text-gray-600">{{ $transaction->book->author }}</td>
                                         <td class="py-4 px-6 text-sm text-gray-500 font-mono">{{ $transaction->book->isbn }}</td>
-                                        <td class="py-4 px-6 text-sm text-gray-600">{{ $transaction->borrowed_at->format('M d, Y') }}</td>
+                                        <td class="py-4 px-6 text-sm text-gray-600">{{ $transaction->borrowed_at->format('M d, Y h:i A') }}</td>
                                         <td class="py-4 px-6 text-sm text-gray-600">
-                                            {{ $transaction->returned_at ? $transaction->returned_at->format('M d, Y') : '—' }}
+                                            {{ $transaction->returned_at ? $transaction->returned_at->format('M d, Y h:i A') : '—' }}
                                         </td>
                                         <td class="py-4 px-6 text-center">
                                             <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider

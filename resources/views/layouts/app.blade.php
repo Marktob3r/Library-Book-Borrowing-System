@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="overflow-x-hidden">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,11 +13,8 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        
-        <!-- HTMX for SPA-like navigation -->
-        <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     </head>
-    <body class="font-sans antialiased overflow-x-hidden" hx-boost="true">
+    <body class="font-sans antialiased">
         <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
             @include('layouts.navigation')
 
