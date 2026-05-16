@@ -14,7 +14,9 @@ class BookController extends Controller
         $sort = request('sort', 'updated_at');
         $direction = request('direction', 'desc');
 
-        $books = Book::query()
+        $books = Book::with(['borrowTransactions' => function($q) {
+                $q->orderBy('created_at', 'desc');
+            }, 'borrowTransactions.student'])
             ->when($search, function ($query, $search) {
                 $query->where('title', 'like', "%{$search}%")
                     ->orWhere('author', 'like', "%{$search}%");

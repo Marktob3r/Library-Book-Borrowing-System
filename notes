@@ -15,3 +15,11 @@ Wipe only Books
 
 Undo last migration
 \\ php artisan migrate:rollback
+
+
+
+* System is sluggish, every login logout, switching pages is very slow, if you close the browser and open it again it takes too long to load
+// Add the default Laravel favicon to all pages
+// Reset the inventory and decrease the amount of mock data (50 books) 
+// In the book catalog table, in the actions colum, add another action called history, a modal will popup and this tracks the history of a specific book
+// how can i demo the admin and student simultenously? in one pc using the same browser, once I'm log in as either admin or student, opening another only open the same page not the other role.

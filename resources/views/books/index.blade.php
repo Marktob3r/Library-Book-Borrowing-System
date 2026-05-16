@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div x-data="{ showDeleteModal: false, deleteUrl: '' }" x-cloak>
+    <div x-data="{ showDeleteModal: false, deleteUrl: '', historyModal: null }" x-cloak>
         <x-slot name="header">
             <div class="flex justify-between items-center">
                 <div>
@@ -134,6 +134,12 @@
                                         </td>
                                         <td class="py-4 px-6 text-right ">
                                             <div class="flex justify-end">
+                                                <button 
+                                                    @click="historyModal = {{ $book->id }}"
+                                                    class="inline-flex items-center gap-1 text-purple-600 hover:text-purple-800 hover:bg-purple-50 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tighter transition-colors duration-200" title="View History">
+                                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 -960 960 960"><path d="m580-240-42-42 122-122H160v-60h500L538-586l42-42 194 194-194 194ZM380-600l42 42-122 122h500v60H300l122 122-42 42-194-194 194-194Z"/></svg>
+                                                    
+                                                </button>
                                                 <a href="{{ route('books.edit', $book->id) }}" class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tighter transition-colors duration-200" title="Edit book">
                                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg>
                                                     
@@ -210,6 +216,120 @@
                 </div>
             </div>
         </div>
+
+        <!-- History Modals -->
+        @foreach($books as $book)
+            <div x-show="historyModal === {{ $book->id }}"
+                 class="fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 style="display: none;"
+                 x-cloak>
+                <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden" @click.away="historyModal = null">
+                    <!-- Modal Header -->
+                    <div class="px-6 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white flex justify-between items-center shrink-0">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 -960 960 960"><path d="m580-240-42-42 122-122H160v-60h500L538-586l42-42 194 194-194 194ZM380-600l42 42-122 122h500v60H300l122 122-42 42-194-194 194-194Z"/></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg leading-tight">Borrow History</h3>
+                                <p class="text-purple-100 text-xs truncate max-w-xs">{{ $book->title }}</p>
+                            </div>
+                        </div>
+                        <button @click="historyModal = null" class="text-white hover:text-purple-200 transition-colors p-1">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="p-6 overflow-y-auto flex-1 bg-gray-50/50">
+                        @if($book->borrowTransactions->isEmpty())
+                            <div class="text-center py-10">
+                                <div class="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-3">
+                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <p class="text-gray-500 font-medium">No history recorded for this book yet.</p>
+                            </div>
+                        @else
+                            <div class="relative border-l-2 border-purple-200 ml-3 md:ml-4 space-y-6 pb-4">
+                                @foreach($book->borrowTransactions as $tx)
+                                    <div class="relative pl-6">
+                                        <!-- Timeline dot -->
+                                        @php
+                                            $dotColor = match($tx->status) {
+                                                'Pending' => 'bg-yellow-400 ring-yellow-100',
+                                                'Borrowed' => 'bg-blue-500 ring-blue-100',
+                                                'Return Requested' => 'bg-orange-400 ring-orange-100',
+                                                'Returned' => 'bg-green-500 ring-green-100',
+                                                'Rejected' => 'bg-red-500 ring-red-100',
+                                                default => 'bg-gray-400 ring-gray-100'
+                                            };
+                                        @endphp
+                                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-2 border-white ring-4 {{ $dotColor }}"></div>
+                                        
+                                        <!-- Content Card -->
+                                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                                                <div class="flex flex-col">
+                                                    <span class="font-bold text-gray-900 text-sm">
+                                                        {{ $tx->student->first_name ?? 'Unknown' }} {{ $tx->student->last_name ?? '' }}
+                                                    </span>
+                                                    <span class="text-xs text-gray-500">ID: {{ $tx->student->student_id_number ?? 'N/A' }}</span>
+                                                </div>
+                                                @php
+                                                    $statusBadge = match($tx->status) {
+                                                        'Pending' => 'bg-yellow-100 text-yellow-700 border-yellow-200',
+                                                        'Borrowed' => 'bg-blue-100 text-blue-700 border-blue-200',
+                                                        'Return Requested' => 'bg-orange-100 text-orange-700 border-orange-200',
+                                                        'Returned' => 'bg-green-100 text-green-700 border-green-200',
+                                                        'Rejected' => 'bg-red-100 text-red-700 border-red-200',
+                                                        default => 'bg-gray-100 text-gray-700 border-gray-200'
+                                                    };
+                                                @endphp
+                                                <span class="inline-flex shrink-0 items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border {{ $statusBadge }}">
+                                                    {{ $tx->status }}
+                                                </span>
+                                            </div>
+                                            
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3 pt-3 border-t border-gray-50 text-xs">
+                                                <div>
+                                                    <span class="text-gray-400 block mb-0.5">Requested</span>
+                                                    <span class="font-medium text-gray-700">{{ $tx->borrowed_at->format('M d, Y h:i A') }}</span>
+                                                </div>
+                                                @if($tx->approved_at)
+                                                    <div>
+                                                        <span class="text-gray-400 block mb-0.5">Approved</span>
+                                                        <span class="font-medium text-blue-600">{{ $tx->approved_at->format('M d, Y h:i A') }}</span>
+                                                    </div>
+                                                @endif
+                                                @if($tx->returned_at)
+                                                    <div class="sm:col-span-2">
+                                                        <span class="text-gray-400 block mb-0.5">Returned</span>
+                                                        <span class="font-medium text-green-600">{{ $tx->returned_at->format('M d, Y h:i A') }}</span>
+                                                    </div>
+                                                @endif
+                                                @if($tx->rejected_reason)
+                                                    <div class="sm:col-span-2 bg-red-50 p-2 rounded-md mt-1">
+                                                        <span class="text-red-400 block mb-0.5 font-semibold">Rejected Reason</span>
+                                                        <span class="text-red-700">{{ $tx->rejected_reason }}</span>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
     </div>
 
     <style> [x-cloak] { display: none !important; } </style>

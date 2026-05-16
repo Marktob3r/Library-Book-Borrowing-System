@@ -6,6 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Library Book Borrowing System') }}</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -28,7 +29,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main>
+            <main id="live-content">
                 {{ $slot }}
             </main>
 
@@ -121,6 +122,94 @@
 
         <style>
             @keyframes shrink { from { width: 100%; } to { width: 0%; } }
+            @keyframes livePulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.3; }
+            }
         </style>
+
+        {{-- ─── Live Polling System ─── --}}
+        <script>
+        (function () {
+            const INTERVAL_MS = 8000; // refresh every 8 seconds
+            let timer = null;
+            let isFetching = false;
+
+            function isModalOpen() {
+                // Check if any Alpine modal is visible (fixed inset-0 overlay visible)
+                return document.querySelector('[x-show][style*="display: flex"], [x-show][style*="display: block"]') !== null
+                    || document.querySelector('[x-data]')?._x_dataStack?.some?.(d => d.confirmOpen || d.historyModal || d.showDeleteModal || d.open) === true;
+            }
+
+            async function refresh() {
+                if (isFetching) return;
+                if (document.hidden) return;          // tab is not visible
+                if (isModalOpen()) return;             // a modal is open
+
+                // Don't interrupt if user is typing in an input
+                const active = document.activeElement;
+                if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.tagName === 'SELECT')) return;
+
+                isFetching = true;
+                try {
+                    const res = await fetch(window.location.href, {
+                        headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-Live-Poll': '1' },
+                        credentials: 'same-origin',
+                    });
+
+                    if (!res.ok || res.redirected) {
+                        // Session expired or redirect — let it go naturally
+                        isFetching = false;
+                        return;
+                    }
+
+                    const html  = await res.text();
+                    const parser = new DOMParser();
+                    const newDoc = parser.parseFromString(html, 'text/html');
+                    const newMain = newDoc.getElementById('live-content');
+                    const curMain = document.getElementById('live-content');
+
+                    if (newMain && curMain && newMain.innerHTML !== curMain.innerHTML) {
+                        // Briefly flash the live indicator green to signal a change
+                        const dot = document.getElementById('live-dot');
+                        if (dot) { dot.style.backgroundColor = '#22c55e'; setTimeout(() => dot.style.backgroundColor = '', 600); }
+
+                        // Swap content — preserve Alpine by doing a morph-safe innerHTML swap
+                        curMain.innerHTML = newMain.innerHTML;
+
+                        // Re-initialize Alpine on new nodes
+                        if (window.Alpine) Alpine.initTree(curMain);
+                    }
+
+                    // Update last-synced time
+                    const ts = document.getElementById('live-timestamp');
+                    if (ts) ts.textContent = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit' });
+
+                } catch (_) {
+                    // Silently ignore network errors (server restarting, etc.)
+                } finally {
+                    isFetching = false;
+                }
+            }
+
+            function start() {
+                if (timer) return;
+                timer = setInterval(refresh, INTERVAL_MS);
+            }
+
+            function stop() {
+                clearInterval(timer);
+                timer = null;
+            }
+
+            // Pause when tab hidden, resume when visible
+            document.addEventListener('visibilitychange', () => {
+                document.hidden ? stop() : start();
+            });
+
+            // Start
+            start();
+        })();
+        </script>
     </body>
 </html>
